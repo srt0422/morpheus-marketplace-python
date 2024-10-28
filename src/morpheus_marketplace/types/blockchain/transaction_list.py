@@ -1,26 +1,23 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
-from datetime import datetime
-from typing_extensions import TypeAlias
-
-from pydantic import Field as FieldInfo
+from typing import List
 
 from ..._models import BaseModel
 
-__all__ = ["TransactionList", "TransactionListItem"]
+__all__ = ["TransactionList", "Transaction"]
 
 
-class TransactionListItem(BaseModel):
-    amount: Optional[str] = None
+class Transaction(BaseModel):
+    id: str
+    """Transaction ID"""
 
-    from_: Optional[str] = FieldInfo(alias="from", default=None)
+    amount: str
+    """Amount involved in the transaction"""
 
-    timestamp: Optional[datetime] = None
-
-    to: Optional[str] = None
-
-    tx_hash: Optional[str] = FieldInfo(alias="txHash", default=None)
+    type: str
+    """Type of transaction"""
 
 
-TransactionList: TypeAlias = List[TransactionListItem]
+class TransactionList(BaseModel):
+    transactions: List[Transaction]
+    """List of transactions"""

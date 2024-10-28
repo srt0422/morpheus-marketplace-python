@@ -9,11 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
-from morpheus_marketplace.types.blockchain import (
-    Provider,
-    ProviderListResponse,
-    ProviderDeleteResponse,
-)
+from morpheus_marketplace.types.blockchain import Provider, ProviderListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -24,16 +20,16 @@ class TestProviders:
     @parametrize
     def test_method_create(self, client: MorpheusMarketplace) -> None:
         provider = client.blockchain.providers.create(
-            endpoint="endpoint",
-            stake="stake",
+            endpoint="https://provider.example.com",
+            stake="2000",
         )
         assert_matches_type(Provider, provider, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.providers.with_raw_response.create(
-            endpoint="endpoint",
-            stake="stake",
+            endpoint="https://provider.example.com",
+            stake="2000",
         )
 
         assert response.is_closed is True
@@ -44,8 +40,8 @@ class TestProviders:
     @parametrize
     def test_streaming_response_create(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.providers.with_streaming_response.create(
-            endpoint="endpoint",
-            stake="stake",
+            endpoint="https://provider.example.com",
+            stake="2000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -83,31 +79,31 @@ class TestProviders:
     @parametrize
     def test_method_delete(self, client: MorpheusMarketplace) -> None:
         provider = client.blockchain.providers.delete(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
-        assert_matches_type(ProviderDeleteResponse, provider, path=["response"])
+        assert provider is None
 
     @parametrize
     def test_raw_response_delete(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.providers.with_raw_response.delete(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         provider = response.parse()
-        assert_matches_type(ProviderDeleteResponse, provider, path=["response"])
+        assert provider is None
 
     @parametrize
     def test_streaming_response_delete(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.providers.with_streaming_response.delete(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             provider = response.parse()
-            assert_matches_type(ProviderDeleteResponse, provider, path=["response"])
+            assert provider is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -125,16 +121,16 @@ class TestAsyncProviders:
     @parametrize
     async def test_method_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         provider = await async_client.blockchain.providers.create(
-            endpoint="endpoint",
-            stake="stake",
+            endpoint="https://provider.example.com",
+            stake="2000",
         )
         assert_matches_type(Provider, provider, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.providers.with_raw_response.create(
-            endpoint="endpoint",
-            stake="stake",
+            endpoint="https://provider.example.com",
+            stake="2000",
         )
 
         assert response.is_closed is True
@@ -145,8 +141,8 @@ class TestAsyncProviders:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.providers.with_streaming_response.create(
-            endpoint="endpoint",
-            stake="stake",
+            endpoint="https://provider.example.com",
+            stake="2000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -184,31 +180,31 @@ class TestAsyncProviders:
     @parametrize
     async def test_method_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
         provider = await async_client.blockchain.providers.delete(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
-        assert_matches_type(ProviderDeleteResponse, provider, path=["response"])
+        assert provider is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.providers.with_raw_response.delete(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         provider = await response.parse()
-        assert_matches_type(ProviderDeleteResponse, provider, path=["response"])
+        assert provider is None
 
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.providers.with_streaming_response.delete(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             provider = await response.parse()
-            assert_matches_type(ProviderDeleteResponse, provider, path=["response"])
+            assert provider is None
 
         assert cast(Any, response.is_closed) is True
 

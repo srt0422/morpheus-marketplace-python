@@ -6,25 +6,27 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["Model", "Details"]
-
-
-class Details(BaseModel):
-    fee: Optional[str] = None
-
-    ipfs_id: Optional[str] = FieldInfo(alias="ipfsID", default=None)
-
-    api_model_id: Optional[str] = FieldInfo(alias="modelID", default=None)
-
-    name: Optional[str] = None
-
-    stake: Optional[str] = None
-
-    tags: Optional[List[str]] = None
+__all__ = ["Model"]
 
 
 class Model(BaseModel):
-    details: Optional[Details] = None
+    id: str
+    """Unique identifier of the model"""
 
-    api_model_id: Optional[str] = FieldInfo(alias="modelID", default=None)
-    """Unique identifier for the model."""
+    fee: str
+    """Fee for using the model"""
+
+    ipfs_id: str = FieldInfo(alias="ipfsID")
+    """IPFS ID where the model is stored"""
+
+    api_model_id: str = FieldInfo(alias="modelID")
+    """Model ID provided by the user"""
+
+    name: str
+    """Name of the model"""
+
+    stake: str
+    """Amount staked for the model"""
+
+    tags: Optional[List[str]] = None
+    """Tags associated with the model"""

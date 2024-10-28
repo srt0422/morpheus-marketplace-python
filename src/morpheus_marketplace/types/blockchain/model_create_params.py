@@ -12,19 +12,19 @@ __all__ = ["ModelCreateParams"]
 
 class ModelCreateParams(TypedDict, total=False):
     fee: Required[str]
-    """Fee amount required for model usage."""
+    """Fee for using the model"""
 
     ipfs_id: Required[Annotated[str, PropertyInfo(alias="ipfsID")]]
-    """IPFS hash storing the model’s data."""
+    """IPFS ID where the model is stored"""
 
     model_id: Required[Annotated[str, PropertyInfo(alias="modelID")]]
-    """Unique identifier for the model."""
+    """Model ID provided by the user"""
 
     name: Required[str]
-    """Name of the model."""
+    """Name of the model"""
 
     stake: Required[str]
-    """Stake amount for the model."""
+    """Amount to stake for the model"""
 
     tags: List[str]
-    """Descriptive tags for categorizing the model."""
+    """Tags associated with the model"""

@@ -9,7 +9,11 @@ import pytest
 
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
-from morpheus_marketplace.types.shared import Bid
+from morpheus_marketplace.types.blockchain.models import (
+    BidListResponse,
+    BidRatedResponse,
+    BidActiveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,16 +26,16 @@ class TestBids:
         bid = client.blockchain.models.bids.list(
             id="id",
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidListResponse, bid, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: MorpheusMarketplace) -> None:
         bid = client.blockchain.models.bids.list(
             id="id",
-            limit=0,
-            offset="offset",
+            limit=10,
+            offset=0,
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidListResponse, bid, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: MorpheusMarketplace) -> None:
@@ -42,7 +46,7 @@ class TestBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = response.parse()
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidListResponse, bid, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: MorpheusMarketplace) -> None:
@@ -53,7 +57,7 @@ class TestBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = response.parse()
-            assert_matches_type(Bid, bid, path=["response"])
+            assert_matches_type(BidListResponse, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -69,7 +73,7 @@ class TestBids:
         bid = client.blockchain.models.bids.active(
             "id",
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidActiveResponse, bid, path=["response"])
 
     @parametrize
     def test_raw_response_active(self, client: MorpheusMarketplace) -> None:
@@ -80,7 +84,7 @@ class TestBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = response.parse()
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidActiveResponse, bid, path=["response"])
 
     @parametrize
     def test_streaming_response_active(self, client: MorpheusMarketplace) -> None:
@@ -91,7 +95,7 @@ class TestBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = response.parse()
-            assert_matches_type(Bid, bid, path=["response"])
+            assert_matches_type(BidActiveResponse, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -107,7 +111,7 @@ class TestBids:
         bid = client.blockchain.models.bids.rated(
             "id",
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidRatedResponse, bid, path=["response"])
 
     @parametrize
     def test_raw_response_rated(self, client: MorpheusMarketplace) -> None:
@@ -118,7 +122,7 @@ class TestBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = response.parse()
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidRatedResponse, bid, path=["response"])
 
     @parametrize
     def test_streaming_response_rated(self, client: MorpheusMarketplace) -> None:
@@ -129,7 +133,7 @@ class TestBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = response.parse()
-            assert_matches_type(Bid, bid, path=["response"])
+            assert_matches_type(BidRatedResponse, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -149,16 +153,16 @@ class TestAsyncBids:
         bid = await async_client.blockchain.models.bids.list(
             id="id",
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidListResponse, bid, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMorpheusMarketplace) -> None:
         bid = await async_client.blockchain.models.bids.list(
             id="id",
-            limit=0,
-            offset="offset",
+            limit=10,
+            offset=0,
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidListResponse, bid, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -169,7 +173,7 @@ class TestAsyncBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = await response.parse()
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidListResponse, bid, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -180,7 +184,7 @@ class TestAsyncBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = await response.parse()
-            assert_matches_type(Bid, bid, path=["response"])
+            assert_matches_type(BidListResponse, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -196,7 +200,7 @@ class TestAsyncBids:
         bid = await async_client.blockchain.models.bids.active(
             "id",
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidActiveResponse, bid, path=["response"])
 
     @parametrize
     async def test_raw_response_active(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -207,7 +211,7 @@ class TestAsyncBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = await response.parse()
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidActiveResponse, bid, path=["response"])
 
     @parametrize
     async def test_streaming_response_active(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -218,7 +222,7 @@ class TestAsyncBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = await response.parse()
-            assert_matches_type(Bid, bid, path=["response"])
+            assert_matches_type(BidActiveResponse, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -234,7 +238,7 @@ class TestAsyncBids:
         bid = await async_client.blockchain.models.bids.rated(
             "id",
         )
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidRatedResponse, bid, path=["response"])
 
     @parametrize
     async def test_raw_response_rated(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -245,7 +249,7 @@ class TestAsyncBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = await response.parse()
-        assert_matches_type(Bid, bid, path=["response"])
+        assert_matches_type(BidRatedResponse, bid, path=["response"])
 
     @parametrize
     async def test_streaming_response_rated(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -256,7 +260,7 @@ class TestAsyncBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = await response.parse()
-            assert_matches_type(Bid, bid, path=["response"])
+            assert_matches_type(BidRatedResponse, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

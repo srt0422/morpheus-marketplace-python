@@ -24,14 +24,6 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
-from .minstake import (
-    MinstakeResource,
-    AsyncMinstakeResource,
-    MinstakeResourceWithRawResponse,
-    AsyncMinstakeResourceWithRawResponse,
-    MinstakeResourceWithStreamingResponse,
-    AsyncMinstakeResourceWithStreamingResponse,
-)
 
 __all__ = [
     "BidsResource",
@@ -40,12 +32,6 @@ __all__ = [
     "AsyncBidsResourceWithRawResponse",
     "BidsResourceWithStreamingResponse",
     "AsyncBidsResourceWithStreamingResponse",
-    "MinstakeResource",
-    "AsyncMinstakeResource",
-    "MinstakeResourceWithRawResponse",
-    "AsyncMinstakeResourceWithRawResponse",
-    "MinstakeResourceWithStreamingResponse",
-    "AsyncMinstakeResourceWithStreamingResponse",
     "StatsResource",
     "AsyncStatsResource",
     "StatsResourceWithRawResponse",
