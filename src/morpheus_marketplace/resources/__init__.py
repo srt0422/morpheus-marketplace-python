@@ -16,6 +16,22 @@ from .blockchain import (
     BlockchainResourceWithStreamingResponse,
     AsyncBlockchainResourceWithStreamingResponse,
 )
+from .blockchain_bids import (
+    BlockchainBidsResource,
+    AsyncBlockchainBidsResource,
+    BlockchainBidsResourceWithRawResponse,
+    AsyncBlockchainBidsResourceWithRawResponse,
+    BlockchainBidsResourceWithStreamingResponse,
+    AsyncBlockchainBidsResourceWithStreamingResponse,
+)
+from .blockchain_sessions import (
+    BlockchainSessionsResource,
+    AsyncBlockchainSessionsResource,
+    BlockchainSessionsResourceWithRawResponse,
+    AsyncBlockchainSessionsResourceWithRawResponse,
+    BlockchainSessionsResourceWithStreamingResponse,
+    AsyncBlockchainSessionsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "BlockchainResource",
@@ -24,6 +40,18 @@ __all__ = [
     "AsyncBlockchainResourceWithRawResponse",
     "BlockchainResourceWithStreamingResponse",
     "AsyncBlockchainResourceWithStreamingResponse",
+    "BlockchainBidsResource",
+    "AsyncBlockchainBidsResource",
+    "BlockchainBidsResourceWithRawResponse",
+    "AsyncBlockchainBidsResourceWithRawResponse",
+    "BlockchainBidsResourceWithStreamingResponse",
+    "AsyncBlockchainBidsResourceWithStreamingResponse",
+    "BlockchainSessionsResource",
+    "AsyncBlockchainSessionsResource",
+    "BlockchainSessionsResourceWithRawResponse",
+    "AsyncBlockchainSessionsResourceWithRawResponse",
+    "BlockchainSessionsResourceWithStreamingResponse",
+    "AsyncBlockchainSessionsResourceWithStreamingResponse",
     "ProxyResource",
     "AsyncProxyResource",
     "ProxyResourceWithRawResponse",

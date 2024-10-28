@@ -2,22 +2,8 @@
 
 from __future__ import annotations
 
-from .bids import (
-    BidsResource,
-    AsyncBidsResource,
-    BidsResourceWithRawResponse,
-    AsyncBidsResourceWithRawResponse,
-    BidsResourceWithStreamingResponse,
-    AsyncBidsResourceWithStreamingResponse,
-)
-from .send import (
-    SendResource,
-    AsyncSendResource,
-    SendResourceWithRawResponse,
-    AsyncSendResourceWithRawResponse,
-    SendResourceWithStreamingResponse,
-    AsyncSendResourceWithStreamingResponse,
-)
+import httpx
+
 from .token import (
     TokenResource,
     AsyncTokenResource,
@@ -34,6 +20,7 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
+from ...types import blockchain_approve_params, blockchain_eth_send_params, blockchain_mor_send_params
 from .balance import (
     BalanceResource,
     AsyncBalanceResource,
@@ -42,13 +29,10 @@ from .balance import (
     BalanceResourceWithStreamingResponse,
     AsyncBalanceResourceWithStreamingResponse,
 )
-from .sessions import (
-    SessionsResource,
-    AsyncSessionsResource,
-    SessionsResourceWithRawResponse,
-    AsyncSessionsResourceWithRawResponse,
-    SessionsResourceWithStreamingResponse,
-    AsyncSessionsResourceWithStreamingResponse,
+from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
 )
 from ..._compat import cached_property
 from .allowance import (
@@ -68,6 +52,12 @@ from .providers import (
     AsyncProvidersResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from .token.token import TokenResource, AsyncTokenResource
 from .latest_block import (
     LatestBlockResource,
@@ -86,7 +76,8 @@ from .transactions import (
     AsyncTransactionsResourceWithStreamingResponse,
 )
 from .models.models import ModelsResource, AsyncModelsResource
-from .sessions.sessions import SessionsResource, AsyncSessionsResource
+from ..._base_client import make_request_options
+from ...types.balance import Balance
 from .providers.providers import ProvidersResource, AsyncProvidersResource
 
 __all__ = ["BlockchainResource", "AsyncBlockchainResource"]
@@ -96,14 +87,6 @@ class BlockchainResource(SyncAPIResource):
     @cached_property
     def models(self) -> ModelsResource:
         return ModelsResource(self._client)
-
-    @cached_property
-    def bids(self) -> BidsResource:
-        return BidsResource(self._client)
-
-    @cached_property
-    def sessions(self) -> SessionsResource:
-        return SessionsResource(self._client)
 
     @cached_property
     def providers(self) -> ProvidersResource:
@@ -116,10 +99,6 @@ class BlockchainResource(SyncAPIResource):
     @cached_property
     def allowance(self) -> AllowanceResource:
         return AllowanceResource(self._client)
-
-    @cached_property
-    def send(self) -> SendResource:
-        return SendResource(self._client)
 
     @cached_property
     def latest_block(self) -> LatestBlockResource:
@@ -152,19 +131,141 @@ class BlockchainResource(SyncAPIResource):
         """
         return BlockchainResourceWithStreamingResponse(self)
 
+    def approve(
+        self,
+        *,
+        amount: str,
+        spender: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> None:
+        """
+        Approve allowance
+
+        Args:
+          amount: Amount to approve
+
+          spender: Spender Ethereum address
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            "/blockchain/approve",
+            body=maybe_transform(
+                {
+                    "amount": amount,
+                    "spender": spender,
+                },
+                blockchain_approve_params.BlockchainApproveParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def eth_send(
+        self,
+        *,
+        amount: str,
+        to: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Balance:
+        """
+        Send ETH to a specified address
+
+        Args:
+          amount: Amount of ETH to send
+
+          to: Ethereum address to send ETH to
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/blockchain/send/eth",
+            body=maybe_transform(
+                {
+                    "amount": amount,
+                    "to": to,
+                },
+                blockchain_eth_send_params.BlockchainEthSendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Balance,
+        )
+
+    def mor_send(
+        self,
+        *,
+        amount: str,
+        to: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Balance:
+        """
+        Send MOR to a specified address
+
+        Args:
+          amount: Amount of MOR to send
+
+          to: Ethereum address to send MOR to
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/blockchain/send/mor",
+            body=maybe_transform(
+                {
+                    "amount": amount,
+                    "to": to,
+                },
+                blockchain_mor_send_params.BlockchainMorSendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Balance,
+        )
+
 
 class AsyncBlockchainResource(AsyncAPIResource):
     @cached_property
     def models(self) -> AsyncModelsResource:
         return AsyncModelsResource(self._client)
-
-    @cached_property
-    def bids(self) -> AsyncBidsResource:
-        return AsyncBidsResource(self._client)
-
-    @cached_property
-    def sessions(self) -> AsyncSessionsResource:
-        return AsyncSessionsResource(self._client)
 
     @cached_property
     def providers(self) -> AsyncProvidersResource:
@@ -177,10 +278,6 @@ class AsyncBlockchainResource(AsyncAPIResource):
     @cached_property
     def allowance(self) -> AsyncAllowanceResource:
         return AsyncAllowanceResource(self._client)
-
-    @cached_property
-    def send(self) -> AsyncSendResource:
-        return AsyncSendResource(self._client)
 
     @cached_property
     def latest_block(self) -> AsyncLatestBlockResource:
@@ -213,22 +310,154 @@ class AsyncBlockchainResource(AsyncAPIResource):
         """
         return AsyncBlockchainResourceWithStreamingResponse(self)
 
+    async def approve(
+        self,
+        *,
+        amount: str,
+        spender: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> None:
+        """
+        Approve allowance
+
+        Args:
+          amount: Amount to approve
+
+          spender: Spender Ethereum address
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            "/blockchain/approve",
+            body=await async_maybe_transform(
+                {
+                    "amount": amount,
+                    "spender": spender,
+                },
+                blockchain_approve_params.BlockchainApproveParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def eth_send(
+        self,
+        *,
+        amount: str,
+        to: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Balance:
+        """
+        Send ETH to a specified address
+
+        Args:
+          amount: Amount of ETH to send
+
+          to: Ethereum address to send ETH to
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/blockchain/send/eth",
+            body=await async_maybe_transform(
+                {
+                    "amount": amount,
+                    "to": to,
+                },
+                blockchain_eth_send_params.BlockchainEthSendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Balance,
+        )
+
+    async def mor_send(
+        self,
+        *,
+        amount: str,
+        to: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Balance:
+        """
+        Send MOR to a specified address
+
+        Args:
+          amount: Amount of MOR to send
+
+          to: Ethereum address to send MOR to
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/blockchain/send/mor",
+            body=await async_maybe_transform(
+                {
+                    "amount": amount,
+                    "to": to,
+                },
+                blockchain_mor_send_params.BlockchainMorSendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Balance,
+        )
+
 
 class BlockchainResourceWithRawResponse:
     def __init__(self, blockchain: BlockchainResource) -> None:
         self._blockchain = blockchain
 
+        self.approve = to_raw_response_wrapper(
+            blockchain.approve,
+        )
+        self.eth_send = to_raw_response_wrapper(
+            blockchain.eth_send,
+        )
+        self.mor_send = to_raw_response_wrapper(
+            blockchain.mor_send,
+        )
+
     @cached_property
     def models(self) -> ModelsResourceWithRawResponse:
         return ModelsResourceWithRawResponse(self._blockchain.models)
-
-    @cached_property
-    def bids(self) -> BidsResourceWithRawResponse:
-        return BidsResourceWithRawResponse(self._blockchain.bids)
-
-    @cached_property
-    def sessions(self) -> SessionsResourceWithRawResponse:
-        return SessionsResourceWithRawResponse(self._blockchain.sessions)
 
     @cached_property
     def providers(self) -> ProvidersResourceWithRawResponse:
@@ -241,10 +470,6 @@ class BlockchainResourceWithRawResponse:
     @cached_property
     def allowance(self) -> AllowanceResourceWithRawResponse:
         return AllowanceResourceWithRawResponse(self._blockchain.allowance)
-
-    @cached_property
-    def send(self) -> SendResourceWithRawResponse:
-        return SendResourceWithRawResponse(self._blockchain.send)
 
     @cached_property
     def latest_block(self) -> LatestBlockResourceWithRawResponse:
@@ -263,17 +488,19 @@ class AsyncBlockchainResourceWithRawResponse:
     def __init__(self, blockchain: AsyncBlockchainResource) -> None:
         self._blockchain = blockchain
 
+        self.approve = async_to_raw_response_wrapper(
+            blockchain.approve,
+        )
+        self.eth_send = async_to_raw_response_wrapper(
+            blockchain.eth_send,
+        )
+        self.mor_send = async_to_raw_response_wrapper(
+            blockchain.mor_send,
+        )
+
     @cached_property
     def models(self) -> AsyncModelsResourceWithRawResponse:
         return AsyncModelsResourceWithRawResponse(self._blockchain.models)
-
-    @cached_property
-    def bids(self) -> AsyncBidsResourceWithRawResponse:
-        return AsyncBidsResourceWithRawResponse(self._blockchain.bids)
-
-    @cached_property
-    def sessions(self) -> AsyncSessionsResourceWithRawResponse:
-        return AsyncSessionsResourceWithRawResponse(self._blockchain.sessions)
 
     @cached_property
     def providers(self) -> AsyncProvidersResourceWithRawResponse:
@@ -286,10 +513,6 @@ class AsyncBlockchainResourceWithRawResponse:
     @cached_property
     def allowance(self) -> AsyncAllowanceResourceWithRawResponse:
         return AsyncAllowanceResourceWithRawResponse(self._blockchain.allowance)
-
-    @cached_property
-    def send(self) -> AsyncSendResourceWithRawResponse:
-        return AsyncSendResourceWithRawResponse(self._blockchain.send)
 
     @cached_property
     def latest_block(self) -> AsyncLatestBlockResourceWithRawResponse:
@@ -308,17 +531,19 @@ class BlockchainResourceWithStreamingResponse:
     def __init__(self, blockchain: BlockchainResource) -> None:
         self._blockchain = blockchain
 
+        self.approve = to_streamed_response_wrapper(
+            blockchain.approve,
+        )
+        self.eth_send = to_streamed_response_wrapper(
+            blockchain.eth_send,
+        )
+        self.mor_send = to_streamed_response_wrapper(
+            blockchain.mor_send,
+        )
+
     @cached_property
     def models(self) -> ModelsResourceWithStreamingResponse:
         return ModelsResourceWithStreamingResponse(self._blockchain.models)
-
-    @cached_property
-    def bids(self) -> BidsResourceWithStreamingResponse:
-        return BidsResourceWithStreamingResponse(self._blockchain.bids)
-
-    @cached_property
-    def sessions(self) -> SessionsResourceWithStreamingResponse:
-        return SessionsResourceWithStreamingResponse(self._blockchain.sessions)
 
     @cached_property
     def providers(self) -> ProvidersResourceWithStreamingResponse:
@@ -331,10 +556,6 @@ class BlockchainResourceWithStreamingResponse:
     @cached_property
     def allowance(self) -> AllowanceResourceWithStreamingResponse:
         return AllowanceResourceWithStreamingResponse(self._blockchain.allowance)
-
-    @cached_property
-    def send(self) -> SendResourceWithStreamingResponse:
-        return SendResourceWithStreamingResponse(self._blockchain.send)
 
     @cached_property
     def latest_block(self) -> LatestBlockResourceWithStreamingResponse:
@@ -353,17 +574,19 @@ class AsyncBlockchainResourceWithStreamingResponse:
     def __init__(self, blockchain: AsyncBlockchainResource) -> None:
         self._blockchain = blockchain
 
+        self.approve = async_to_streamed_response_wrapper(
+            blockchain.approve,
+        )
+        self.eth_send = async_to_streamed_response_wrapper(
+            blockchain.eth_send,
+        )
+        self.mor_send = async_to_streamed_response_wrapper(
+            blockchain.mor_send,
+        )
+
     @cached_property
     def models(self) -> AsyncModelsResourceWithStreamingResponse:
         return AsyncModelsResourceWithStreamingResponse(self._blockchain.models)
-
-    @cached_property
-    def bids(self) -> AsyncBidsResourceWithStreamingResponse:
-        return AsyncBidsResourceWithStreamingResponse(self._blockchain.bids)
-
-    @cached_property
-    def sessions(self) -> AsyncSessionsResourceWithStreamingResponse:
-        return AsyncSessionsResourceWithStreamingResponse(self._blockchain.sessions)
 
     @cached_property
     def providers(self) -> AsyncProvidersResourceWithStreamingResponse:
@@ -376,10 +599,6 @@ class AsyncBlockchainResourceWithStreamingResponse:
     @cached_property
     def allowance(self) -> AsyncAllowanceResourceWithStreamingResponse:
         return AsyncAllowanceResourceWithStreamingResponse(self._blockchain.allowance)
-
-    @cached_property
-    def send(self) -> AsyncSendResourceWithStreamingResponse:
-        return AsyncSendResourceWithStreamingResponse(self._blockchain.send)
 
     @cached_property
     def latest_block(self) -> AsyncLatestBlockResourceWithStreamingResponse:

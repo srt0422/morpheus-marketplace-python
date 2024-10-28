@@ -47,6 +47,8 @@ __all__ = [
 
 class MorpheusMarketplace(SyncAPIClient):
     blockchain: resources.BlockchainResource
+    blockchain_bids: resources.BlockchainBidsResource
+    blockchain_sessions: resources.BlockchainSessionsResource
     proxy: resources.ProxyResource
     with_raw_response: MorpheusMarketplaceWithRawResponse
     with_streaming_response: MorpheusMarketplaceWithStreamedResponse
@@ -93,6 +95,8 @@ class MorpheusMarketplace(SyncAPIClient):
         )
 
         self.blockchain = resources.BlockchainResource(self)
+        self.blockchain_bids = resources.BlockchainBidsResource(self)
+        self.blockchain_sessions = resources.BlockchainSessionsResource(self)
         self.proxy = resources.ProxyResource(self)
         self.with_raw_response = MorpheusMarketplaceWithRawResponse(self)
         self.with_streaming_response = MorpheusMarketplaceWithStreamedResponse(self)
@@ -196,6 +200,8 @@ class MorpheusMarketplace(SyncAPIClient):
 
 class AsyncMorpheusMarketplace(AsyncAPIClient):
     blockchain: resources.AsyncBlockchainResource
+    blockchain_bids: resources.AsyncBlockchainBidsResource
+    blockchain_sessions: resources.AsyncBlockchainSessionsResource
     proxy: resources.AsyncProxyResource
     with_raw_response: AsyncMorpheusMarketplaceWithRawResponse
     with_streaming_response: AsyncMorpheusMarketplaceWithStreamedResponse
@@ -242,6 +248,8 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
         )
 
         self.blockchain = resources.AsyncBlockchainResource(self)
+        self.blockchain_bids = resources.AsyncBlockchainBidsResource(self)
+        self.blockchain_sessions = resources.AsyncBlockchainSessionsResource(self)
         self.proxy = resources.AsyncProxyResource(self)
         self.with_raw_response = AsyncMorpheusMarketplaceWithRawResponse(self)
         self.with_streaming_response = AsyncMorpheusMarketplaceWithStreamedResponse(self)
@@ -346,24 +354,34 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
 class MorpheusMarketplaceWithRawResponse:
     def __init__(self, client: MorpheusMarketplace) -> None:
         self.blockchain = resources.BlockchainResourceWithRawResponse(client.blockchain)
+        self.blockchain_bids = resources.BlockchainBidsResourceWithRawResponse(client.blockchain_bids)
+        self.blockchain_sessions = resources.BlockchainSessionsResourceWithRawResponse(client.blockchain_sessions)
         self.proxy = resources.ProxyResourceWithRawResponse(client.proxy)
 
 
 class AsyncMorpheusMarketplaceWithRawResponse:
     def __init__(self, client: AsyncMorpheusMarketplace) -> None:
         self.blockchain = resources.AsyncBlockchainResourceWithRawResponse(client.blockchain)
+        self.blockchain_bids = resources.AsyncBlockchainBidsResourceWithRawResponse(client.blockchain_bids)
+        self.blockchain_sessions = resources.AsyncBlockchainSessionsResourceWithRawResponse(client.blockchain_sessions)
         self.proxy = resources.AsyncProxyResourceWithRawResponse(client.proxy)
 
 
 class MorpheusMarketplaceWithStreamedResponse:
     def __init__(self, client: MorpheusMarketplace) -> None:
         self.blockchain = resources.BlockchainResourceWithStreamingResponse(client.blockchain)
+        self.blockchain_bids = resources.BlockchainBidsResourceWithStreamingResponse(client.blockchain_bids)
+        self.blockchain_sessions = resources.BlockchainSessionsResourceWithStreamingResponse(client.blockchain_sessions)
         self.proxy = resources.ProxyResourceWithStreamingResponse(client.proxy)
 
 
 class AsyncMorpheusMarketplaceWithStreamedResponse:
     def __init__(self, client: AsyncMorpheusMarketplace) -> None:
         self.blockchain = resources.AsyncBlockchainResourceWithStreamingResponse(client.blockchain)
+        self.blockchain_bids = resources.AsyncBlockchainBidsResourceWithStreamingResponse(client.blockchain_bids)
+        self.blockchain_sessions = resources.AsyncBlockchainSessionsResourceWithStreamingResponse(
+            client.blockchain_sessions
+        )
         self.proxy = resources.AsyncProxyResourceWithStreamingResponse(client.proxy)
 
 

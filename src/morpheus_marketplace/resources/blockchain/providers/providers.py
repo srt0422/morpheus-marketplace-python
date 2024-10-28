@@ -12,7 +12,7 @@ from .bids import (
     BidsResourceWithStreamingResponse,
     AsyncBidsResourceWithStreamingResponse,
 )
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ...._utils import (
     maybe_transform,
     async_maybe_transform,
@@ -30,7 +30,6 @@ from ...._base_client import make_request_options
 from ....types.blockchain import provider_create_params
 from ....types.blockchain.provider import Provider
 from ....types.blockchain.provider_list_response import ProviderListResponse
-from ....types.blockchain.provider_delete_response import ProviderDeleteResponse
 
 __all__ = ["ProvidersResource", "AsyncProvidersResource"]
 
@@ -72,12 +71,12 @@ class ProvidersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Provider:
         """
-        Registers or updates a provider.
+        Create a new provider
 
         Args:
-          endpoint: Endpoint URL of the provider.
+          endpoint: Endpoint URL of the provider
 
-          stake: Amount of tokens staked by the provider.
+          stake: Amount to stake for the provider
 
           extra_headers: Send extra headers
 
@@ -112,7 +111,7 @@ class ProvidersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderListResponse:
-        """Retrieves a list of all registered providers."""
+        """List providers"""
         return self._get(
             "/blockchain/providers",
             options=make_request_options(
@@ -131,9 +130,9 @@ class ProvidersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ProviderDeleteResponse:
+    ) -> None:
         """
-        Removes a provider’s registration from the blockchain.
+        Delete a provider
 
         Args:
           extra_headers: Send extra headers
@@ -146,12 +145,13 @@ class ProvidersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/blockchain/providers/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProviderDeleteResponse,
+            cast_to=NoneType,
         )
 
 
@@ -192,12 +192,12 @@ class AsyncProvidersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Provider:
         """
-        Registers or updates a provider.
+        Create a new provider
 
         Args:
-          endpoint: Endpoint URL of the provider.
+          endpoint: Endpoint URL of the provider
 
-          stake: Amount of tokens staked by the provider.
+          stake: Amount to stake for the provider
 
           extra_headers: Send extra headers
 
@@ -232,7 +232,7 @@ class AsyncProvidersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderListResponse:
-        """Retrieves a list of all registered providers."""
+        """List providers"""
         return await self._get(
             "/blockchain/providers",
             options=make_request_options(
@@ -251,9 +251,9 @@ class AsyncProvidersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ProviderDeleteResponse:
+    ) -> None:
         """
-        Removes a provider’s registration from the blockchain.
+        Delete a provider
 
         Args:
           extra_headers: Send extra headers
@@ -266,12 +266,13 @@ class AsyncProvidersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/blockchain/providers/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProviderDeleteResponse,
+            cast_to=NoneType,
         )
 
 

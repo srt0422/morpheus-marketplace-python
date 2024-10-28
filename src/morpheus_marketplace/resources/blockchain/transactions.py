@@ -5,10 +5,6 @@ from __future__ import annotations
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -18,7 +14,6 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.blockchain import transaction_list_params
 from ...types.blockchain.transaction_list import TransactionList
 
 __all__ = ["TransactionsResource", "AsyncTransactionsResource"]
@@ -47,8 +42,6 @@ class TransactionsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        page: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -56,36 +49,11 @@ class TransactionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TransactionList:
-        """
-        Retrieves ETH and MOR token transactions for the user.
-
-        Args:
-          limit: Limit for pagination.
-
-          page: Page number for pagination.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
+        """List transactions"""
         return self._get(
             "/blockchain/transactions",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "limit": limit,
-                        "page": page,
-                    },
-                    transaction_list_params.TransactionListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=TransactionList,
         )
@@ -114,8 +82,6 @@ class AsyncTransactionsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        page: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -123,36 +89,11 @@ class AsyncTransactionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TransactionList:
-        """
-        Retrieves ETH and MOR token transactions for the user.
-
-        Args:
-          limit: Limit for pagination.
-
-          page: Page number for pagination.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
+        """List transactions"""
         return await self._get(
             "/blockchain/transactions",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "limit": limit,
-                        "page": page,
-                    },
-                    transaction_list_params.TransactionListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=TransactionList,
         )

@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
-from morpheus_marketplace.types.shared import Bid
+from morpheus_marketplace.types.blockchain.providers.bids import ActiveListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,31 +20,31 @@ class TestActive:
     @parametrize
     def test_method_list(self, client: MorpheusMarketplace) -> None:
         active = client.blockchain.providers.bids.active.list(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
-        assert_matches_type(Bid, active, path=["response"])
+        assert_matches_type(ActiveListResponse, active, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.providers.bids.active.with_raw_response.list(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         active = response.parse()
-        assert_matches_type(Bid, active, path=["response"])
+        assert_matches_type(ActiveListResponse, active, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.providers.bids.active.with_streaming_response.list(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             active = response.parse()
-            assert_matches_type(Bid, active, path=["response"])
+            assert_matches_type(ActiveListResponse, active, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -62,31 +62,31 @@ class TestAsyncActive:
     @parametrize
     async def test_method_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         active = await async_client.blockchain.providers.bids.active.list(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
-        assert_matches_type(Bid, active, path=["response"])
+        assert_matches_type(ActiveListResponse, active, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.providers.bids.active.with_raw_response.list(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         active = await response.parse()
-        assert_matches_type(Bid, active, path=["response"])
+        assert_matches_type(ActiveListResponse, active, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.providers.bids.active.with_streaming_response.list(
-            "id",
+            "0x1234567890abcdef1234567890abcdef12345678",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             active = await response.parse()
-            assert_matches_type(Bid, active, path=["response"])
+            assert_matches_type(ActiveListResponse, active, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

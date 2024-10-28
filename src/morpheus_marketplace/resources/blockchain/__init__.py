@@ -1,21 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .bids import (
-    BidsResource,
-    AsyncBidsResource,
-    BidsResourceWithRawResponse,
-    AsyncBidsResourceWithRawResponse,
-    BidsResourceWithStreamingResponse,
-    AsyncBidsResourceWithStreamingResponse,
-)
-from .send import (
-    SendResource,
-    AsyncSendResource,
-    SendResourceWithRawResponse,
-    AsyncSendResourceWithRawResponse,
-    SendResourceWithStreamingResponse,
-    AsyncSendResourceWithStreamingResponse,
-)
 from .token import (
     TokenResource,
     AsyncTokenResource,
@@ -39,14 +23,6 @@ from .balance import (
     AsyncBalanceResourceWithRawResponse,
     BalanceResourceWithStreamingResponse,
     AsyncBalanceResourceWithStreamingResponse,
-)
-from .sessions import (
-    SessionsResource,
-    AsyncSessionsResource,
-    SessionsResourceWithRawResponse,
-    AsyncSessionsResourceWithRawResponse,
-    SessionsResourceWithStreamingResponse,
-    AsyncSessionsResourceWithStreamingResponse,
 )
 from .allowance import (
     AllowanceResource,
@@ -96,18 +72,6 @@ __all__ = [
     "AsyncModelsResourceWithRawResponse",
     "ModelsResourceWithStreamingResponse",
     "AsyncModelsResourceWithStreamingResponse",
-    "BidsResource",
-    "AsyncBidsResource",
-    "BidsResourceWithRawResponse",
-    "AsyncBidsResourceWithRawResponse",
-    "BidsResourceWithStreamingResponse",
-    "AsyncBidsResourceWithStreamingResponse",
-    "SessionsResource",
-    "AsyncSessionsResource",
-    "SessionsResourceWithRawResponse",
-    "AsyncSessionsResourceWithRawResponse",
-    "SessionsResourceWithStreamingResponse",
-    "AsyncSessionsResourceWithStreamingResponse",
     "ProvidersResource",
     "AsyncProvidersResource",
     "ProvidersResourceWithRawResponse",
@@ -126,12 +90,6 @@ __all__ = [
     "AsyncAllowanceResourceWithRawResponse",
     "AllowanceResourceWithStreamingResponse",
     "AsyncAllowanceResourceWithStreamingResponse",
-    "SendResource",
-    "AsyncSendResource",
-    "SendResourceWithRawResponse",
-    "AsyncSendResourceWithRawResponse",
-    "SendResourceWithStreamingResponse",
-    "AsyncSendResourceWithStreamingResponse",
     "LatestBlockResource",
     "AsyncLatestBlockResource",
     "LatestBlockResourceWithRawResponse",

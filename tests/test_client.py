@@ -676,14 +676,11 @@ class TestMorpheusMarketplace:
     @mock.patch("morpheus_marketplace._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/blockchain/models").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/blockchain/balance").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.post(
-                "/blockchain/models",
-                body=cast(object, dict(fee="fee", ipfs_id="ipfsID", model_id="modelID", name="name", stake="stake")),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            self.client.get(
+                "/blockchain/balance", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -691,14 +688,11 @@ class TestMorpheusMarketplace:
     @mock.patch("morpheus_marketplace._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/blockchain/models").mock(return_value=httpx.Response(500))
+        respx_mock.get("/blockchain/balance").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.post(
-                "/blockchain/models",
-                body=cast(object, dict(fee="fee", ipfs_id="ipfsID", model_id="modelID", name="name", stake="stake")),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            self.client.get(
+                "/blockchain/balance", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -727,11 +721,9 @@ class TestMorpheusMarketplace:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/blockchain/models").mock(side_effect=retry_handler)
+        respx_mock.get("/blockchain/balance").mock(side_effect=retry_handler)
 
-        response = client.blockchain.models.with_raw_response.create(
-            fee="fee", ipfs_id="ipfsID", model_id="modelID", name="name", stake="stake"
-        )
+        response = client.blockchain.balance.with_raw_response.retrieve()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -753,15 +745,10 @@ class TestMorpheusMarketplace:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/blockchain/models").mock(side_effect=retry_handler)
+        respx_mock.get("/blockchain/balance").mock(side_effect=retry_handler)
 
-        response = client.blockchain.models.with_raw_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
-            extra_headers={"x-stainless-retry-count": Omit()},
+        response = client.blockchain.balance.with_raw_response.retrieve(
+            extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -783,16 +770,9 @@ class TestMorpheusMarketplace:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/blockchain/models").mock(side_effect=retry_handler)
+        respx_mock.get("/blockchain/balance").mock(side_effect=retry_handler)
 
-        response = client.blockchain.models.with_raw_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
-            extra_headers={"x-stainless-retry-count": "42"},
-        )
+        response = client.blockchain.balance.with_raw_response.retrieve(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -1435,14 +1415,11 @@ class TestAsyncMorpheusMarketplace:
     @mock.patch("morpheus_marketplace._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/blockchain/models").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/blockchain/balance").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.post(
-                "/blockchain/models",
-                body=cast(object, dict(fee="fee", ipfs_id="ipfsID", model_id="modelID", name="name", stake="stake")),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            await self.client.get(
+                "/blockchain/balance", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -1450,14 +1427,11 @@ class TestAsyncMorpheusMarketplace:
     @mock.patch("morpheus_marketplace._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/blockchain/models").mock(return_value=httpx.Response(500))
+        respx_mock.get("/blockchain/balance").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.post(
-                "/blockchain/models",
-                body=cast(object, dict(fee="fee", ipfs_id="ipfsID", model_id="modelID", name="name", stake="stake")),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            await self.client.get(
+                "/blockchain/balance", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -1487,11 +1461,9 @@ class TestAsyncMorpheusMarketplace:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/blockchain/models").mock(side_effect=retry_handler)
+        respx_mock.get("/blockchain/balance").mock(side_effect=retry_handler)
 
-        response = await client.blockchain.models.with_raw_response.create(
-            fee="fee", ipfs_id="ipfsID", model_id="modelID", name="name", stake="stake"
-        )
+        response = await client.blockchain.balance.with_raw_response.retrieve()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1514,15 +1486,10 @@ class TestAsyncMorpheusMarketplace:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/blockchain/models").mock(side_effect=retry_handler)
+        respx_mock.get("/blockchain/balance").mock(side_effect=retry_handler)
 
-        response = await client.blockchain.models.with_raw_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
-            extra_headers={"x-stainless-retry-count": Omit()},
+        response = await client.blockchain.balance.with_raw_response.retrieve(
+            extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1545,15 +1512,10 @@ class TestAsyncMorpheusMarketplace:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/blockchain/models").mock(side_effect=retry_handler)
+        respx_mock.get("/blockchain/balance").mock(side_effect=retry_handler)
 
-        response = await client.blockchain.models.with_raw_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
-            extra_headers={"x-stainless-retry-count": "42"},
+        response = await client.blockchain.balance.with_raw_response.retrieve(
+            extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

@@ -9,4 +9,4 @@ __all__ = ["SessionProviderClaimParams"]
 
 class SessionProviderClaimParams(TypedDict, total=False):
     claim: Required[str]
-    """Amount to claim."""
+    """Claim identifier"""

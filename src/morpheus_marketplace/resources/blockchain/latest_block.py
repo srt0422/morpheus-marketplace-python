@@ -49,7 +49,7 @@ class LatestBlockResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> LatestBlock:
-        """Retrieves the latest block number from the blockchain."""
+        """Get latest block number"""
         return self._get(
             "/blockchain/latestBlock",
             options=make_request_options(
@@ -89,7 +89,7 @@ class AsyncLatestBlockResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> LatestBlock:
-        """Retrieves the latest block number from the blockchain."""
+        """Get latest block number"""
         return await self._get(
             "/blockchain/latestBlock",
             options=make_request_options(

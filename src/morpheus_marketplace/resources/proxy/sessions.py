@@ -20,8 +20,7 @@ from ..._response import (
 from ...types.proxy import session_initiate_params, session_provider_claim_params
 from ..._base_client import make_request_options
 from ...types.shared.session import Session
-from ...types.proxy.session_provider_claim_response import SessionProviderClaimResponse
-from ...types.proxy.session_provider_claimable_balance_response import SessionProviderClaimableBalanceResponse
+from ...types.proxy.claimable_balance import ClaimableBalance
 
 __all__ = ["SessionsResource", "AsyncSessionsResource"]
 
@@ -59,12 +58,12 @@ class SessionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Initializes a new session with the provider for usage.
+        Initiate a proxy session
 
         Args:
-          model_id: Model ID for the session.
+          model_id: Model ID to initiate session with
 
-          session_duration: Duration for which the session will remain active.
+          session_duration: Duration of the session
 
           extra_headers: Send extra headers
 
@@ -100,12 +99,12 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionProviderClaimResponse:
+    ) -> ClaimableBalance:
         """
-        Allows a provider to claim their balance for a specific session.
+        Claim provider balance
 
         Args:
-          claim: Amount to claim.
+          claim: Claim identifier
 
           extra_headers: Send extra headers
 
@@ -123,7 +122,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionProviderClaimResponse,
+            cast_to=ClaimableBalance,
         )
 
     def provider_claimable_balance(
@@ -136,9 +135,9 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionProviderClaimableBalanceResponse:
+    ) -> ClaimableBalance:
         """
-        Retrieves the claimable balance for a provider from a session.
+        Get provider claimable balance
 
         Args:
           extra_headers: Send extra headers
@@ -156,7 +155,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionProviderClaimableBalanceResponse,
+            cast_to=ClaimableBalance,
         )
 
 
@@ -193,12 +192,12 @@ class AsyncSessionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Initializes a new session with the provider for usage.
+        Initiate a proxy session
 
         Args:
-          model_id: Model ID for the session.
+          model_id: Model ID to initiate session with
 
-          session_duration: Duration for which the session will remain active.
+          session_duration: Duration of the session
 
           extra_headers: Send extra headers
 
@@ -234,12 +233,12 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionProviderClaimResponse:
+    ) -> ClaimableBalance:
         """
-        Allows a provider to claim their balance for a specific session.
+        Claim provider balance
 
         Args:
-          claim: Amount to claim.
+          claim: Claim identifier
 
           extra_headers: Send extra headers
 
@@ -259,7 +258,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionProviderClaimResponse,
+            cast_to=ClaimableBalance,
         )
 
     async def provider_claimable_balance(
@@ -272,9 +271,9 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionProviderClaimableBalanceResponse:
+    ) -> ClaimableBalance:
         """
-        Retrieves the claimable balance for a provider from a session.
+        Get provider claimable balance
 
         Args:
           extra_headers: Send extra headers
@@ -292,7 +291,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionProviderClaimableBalanceResponse,
+            cast_to=ClaimableBalance,
         )
 
 

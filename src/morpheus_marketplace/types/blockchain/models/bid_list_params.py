@@ -9,7 +9,7 @@ __all__ = ["BidListParams"]
 
 class BidListParams(TypedDict, total=False):
     limit: int
-    """Limit for pagination."""
+    """Maximum number of results to return"""
 
-    offset: str
-    """Offset for pagination."""
+    offset: int
+    """Number of results to skip"""

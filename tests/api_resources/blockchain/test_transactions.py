@@ -23,14 +23,6 @@ class TestTransactions:
         assert_matches_type(TransactionList, transaction, path=["response"])
 
     @parametrize
-    def test_method_list_with_all_params(self, client: MorpheusMarketplace) -> None:
-        transaction = client.blockchain.transactions.list(
-            limit=0,
-            page=0,
-        )
-        assert_matches_type(TransactionList, transaction, path=["response"])
-
-    @parametrize
     def test_raw_response_list(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.transactions.with_raw_response.list()
 
@@ -57,14 +49,6 @@ class TestAsyncTransactions:
     @parametrize
     async def test_method_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         transaction = await async_client.blockchain.transactions.list()
-        assert_matches_type(TransactionList, transaction, path=["response"])
-
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMorpheusMarketplace) -> None:
-        transaction = await async_client.blockchain.transactions.list(
-            limit=0,
-            page=0,
-        )
         assert_matches_type(TransactionList, transaction, path=["response"])
 
     @parametrize
