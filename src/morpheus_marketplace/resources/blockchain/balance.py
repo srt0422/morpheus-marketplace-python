@@ -14,7 +14,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.blockchain.balance import Balance
+from ...types.balance import Balance
 
 __all__ = ["BalanceResource", "AsyncBalanceResource"]
 
@@ -49,7 +49,7 @@ class BalanceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Balance:
-        """Retrieves the ETH and MOR token balances of the user."""
+        """Retrieve balance"""
         return self._get(
             "/blockchain/balance",
             options=make_request_options(
@@ -89,7 +89,7 @@ class AsyncBalanceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Balance:
-        """Retrieves the ETH and MOR token balances of the user."""
+        """Retrieve balance"""
         return await self._get(
             "/blockchain/balance",
             options=make_request_options(

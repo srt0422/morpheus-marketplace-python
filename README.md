@@ -15,9 +15,12 @@ The REST API documentation can be found on [docs.morpheus-marketplace.com](https
 ## Installation
 
 ```sh
-# install from PyPI
-pip install --pre morpheus_marketplace
+# install from the production repo
+pip install git+ssh://git@github.com/srt0422/morpheus-marketplace-python.git
 ```
+
+> [!NOTE]
+> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre morpheus_marketplace`
 
 ## Usage
 
@@ -28,14 +31,8 @@ from morpheus_marketplace import MorpheusMarketplace
 
 client = MorpheusMarketplace()
 
-model = client.blockchain.models.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
-)
-print(model.details)
+balance = client.blockchain.balance.retrieve()
+print(balance.balance)
 ```
 
 ## Async usage
@@ -50,14 +47,8 @@ client = AsyncMorpheusMarketplace()
 
 
 async def main() -> None:
-    model = await client.blockchain.models.create(
-        fee="fee",
-        ipfs_id="ipfsID",
-        model_id="modelID",
-        name="name",
-        stake="stake",
-    )
-    print(model.details)
+    balance = await client.blockchain.balance.retrieve()
+    print(balance.balance)
 
 
 asyncio.run(main())
@@ -90,13 +81,7 @@ from morpheus_marketplace import MorpheusMarketplace
 client = MorpheusMarketplace()
 
 try:
-    client.blockchain.models.create(
-        fee="fee",
-        ipfs_id="ipfsID",
-        model_id="modelID",
-        name="name",
-        stake="stake",
-    )
+    client.blockchain.balance.retrieve()
 except morpheus_marketplace.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -139,13 +124,7 @@ client = MorpheusMarketplace(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).blockchain.models.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
-)
+client.with_options(max_retries=5).blockchain.balance.retrieve()
 ```
 
 ### Timeouts
@@ -168,13 +147,7 @@ client = MorpheusMarketplace(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).blockchain.models.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
-)
+client.with_options(timeout=5.0).blockchain.balance.retrieve()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -213,17 +186,11 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from morpheus_marketplace import MorpheusMarketplace
 
 client = MorpheusMarketplace()
-response = client.blockchain.models.with_raw_response.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
-)
+response = client.blockchain.balance.with_raw_response.retrieve()
 print(response.headers.get('X-My-Header'))
 
-model = response.parse()  # get the object that `blockchain.models.create()` would have returned
-print(model.details)
+balance = response.parse()  # get the object that `blockchain.balance.retrieve()` would have returned
+print(balance.balance)
 ```
 
 These methods return an [`APIResponse`](https://github.com/srt0422/morpheus-marketplace-python/tree/main/src/morpheus_marketplace/_response.py) object.
@@ -237,13 +204,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.blockchain.models.with_streaming_response.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
-) as response:
+with client.blockchain.balance.with_streaming_response.retrieve() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():

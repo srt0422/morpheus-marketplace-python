@@ -39,7 +39,7 @@ class StatsResource(SyncAPIResource):
         """
         return StatsResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def list(
         self,
         id: str,
         *,
@@ -51,7 +51,7 @@ class StatsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelStats:
         """
-        Retrieves the statistics of a model.
+        Retrieve statistics for a model
 
         Args:
           extra_headers: Send extra headers
@@ -93,7 +93,7 @@ class AsyncStatsResource(AsyncAPIResource):
         """
         return AsyncStatsResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def list(
         self,
         id: str,
         *,
@@ -105,7 +105,7 @@ class AsyncStatsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelStats:
         """
-        Retrieves the statistics of a model.
+        Retrieve statistics for a model
 
         Args:
           extra_headers: Send extra headers
@@ -131,8 +131,8 @@ class StatsResourceWithRawResponse:
     def __init__(self, stats: StatsResource) -> None:
         self._stats = stats
 
-        self.retrieve = to_raw_response_wrapper(
-            stats.retrieve,
+        self.list = to_raw_response_wrapper(
+            stats.list,
         )
 
 
@@ -140,8 +140,8 @@ class AsyncStatsResourceWithRawResponse:
     def __init__(self, stats: AsyncStatsResource) -> None:
         self._stats = stats
 
-        self.retrieve = async_to_raw_response_wrapper(
-            stats.retrieve,
+        self.list = async_to_raw_response_wrapper(
+            stats.list,
         )
 
 
@@ -149,8 +149,8 @@ class StatsResourceWithStreamingResponse:
     def __init__(self, stats: StatsResource) -> None:
         self._stats = stats
 
-        self.retrieve = to_streamed_response_wrapper(
-            stats.retrieve,
+        self.list = to_streamed_response_wrapper(
+            stats.list,
         )
 
 
@@ -158,6 +158,6 @@ class AsyncStatsResourceWithStreamingResponse:
     def __init__(self, stats: AsyncStatsResource) -> None:
         self._stats = stats
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            stats.retrieve,
+        self.list = async_to_streamed_response_wrapper(
+            stats.list,
         )

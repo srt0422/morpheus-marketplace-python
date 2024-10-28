@@ -10,13 +10,7 @@ import pytest
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
 from morpheus_marketplace.types.shared import Session
-from morpheus_marketplace.types.blockchain import (
-    Model,
-    ModelListResponse,
-    ModelDeleteResponse,
-    ModelExistsResponse,
-    ModelResetstatsResponse,
-)
+from morpheus_marketplace.types.blockchain import Model, ModelListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -27,34 +21,34 @@ class TestModels:
     @parametrize
     def test_method_create(self, client: MorpheusMarketplace) -> None:
         model = client.blockchain.models.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
         )
         assert_matches_type(Model, model, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: MorpheusMarketplace) -> None:
         model = client.blockchain.models.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
-            tags=["string", "string", "string"],
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
+            tags=["machine learning", "image recognition"],
         )
         assert_matches_type(Model, model, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.models.with_raw_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
         )
 
         assert response.is_closed is True
@@ -65,11 +59,11 @@ class TestModels:
     @parametrize
     def test_streaming_response_create(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.models.with_streaming_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -109,7 +103,7 @@ class TestModels:
         model = client.blockchain.models.delete(
             "id",
         )
-        assert_matches_type(ModelDeleteResponse, model, path=["response"])
+        assert model is None
 
     @parametrize
     def test_raw_response_delete(self, client: MorpheusMarketplace) -> None:
@@ -120,7 +114,7 @@ class TestModels:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = response.parse()
-        assert_matches_type(ModelDeleteResponse, model, path=["response"])
+        assert model is None
 
     @parametrize
     def test_streaming_response_delete(self, client: MorpheusMarketplace) -> None:
@@ -131,7 +125,7 @@ class TestModels:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = response.parse()
-            assert_matches_type(ModelDeleteResponse, model, path=["response"])
+            assert model is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -143,86 +137,10 @@ class TestModels:
             )
 
     @parametrize
-    def test_method_exists(self, client: MorpheusMarketplace) -> None:
-        model = client.blockchain.models.exists(
-            "id",
-        )
-        assert_matches_type(ModelExistsResponse, model, path=["response"])
-
-    @parametrize
-    def test_raw_response_exists(self, client: MorpheusMarketplace) -> None:
-        response = client.blockchain.models.with_raw_response.exists(
-            "id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        model = response.parse()
-        assert_matches_type(ModelExistsResponse, model, path=["response"])
-
-    @parametrize
-    def test_streaming_response_exists(self, client: MorpheusMarketplace) -> None:
-        with client.blockchain.models.with_streaming_response.exists(
-            "id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            model = response.parse()
-            assert_matches_type(ModelExistsResponse, model, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_exists(self, client: MorpheusMarketplace) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.blockchain.models.with_raw_response.exists(
-                "",
-            )
-
-    @parametrize
-    def test_method_resetstats(self, client: MorpheusMarketplace) -> None:
-        model = client.blockchain.models.resetstats(
-            "id",
-        )
-        assert_matches_type(ModelResetstatsResponse, model, path=["response"])
-
-    @parametrize
-    def test_raw_response_resetstats(self, client: MorpheusMarketplace) -> None:
-        response = client.blockchain.models.with_raw_response.resetstats(
-            "id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        model = response.parse()
-        assert_matches_type(ModelResetstatsResponse, model, path=["response"])
-
-    @parametrize
-    def test_streaming_response_resetstats(self, client: MorpheusMarketplace) -> None:
-        with client.blockchain.models.with_streaming_response.resetstats(
-            "id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            model = response.parse()
-            assert_matches_type(ModelResetstatsResponse, model, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_resetstats(self, client: MorpheusMarketplace) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.blockchain.models.with_raw_response.resetstats(
-                "",
-            )
-
-    @parametrize
     def test_method_session(self, client: MorpheusMarketplace) -> None:
         model = client.blockchain.models.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
         assert_matches_type(Session, model, path=["response"])
 
@@ -230,7 +148,7 @@ class TestModels:
     def test_raw_response_session(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.models.with_raw_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
 
         assert response.is_closed is True
@@ -242,7 +160,7 @@ class TestModels:
     def test_streaming_response_session(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.models.with_streaming_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -257,7 +175,7 @@ class TestModels:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.blockchain.models.with_raw_response.session(
                 id="",
-                session_duration="sessionDuration",
+                session_duration="3600",
             )
 
 
@@ -267,34 +185,34 @@ class TestAsyncModels:
     @parametrize
     async def test_method_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         model = await async_client.blockchain.models.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
         )
         assert_matches_type(Model, model, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMorpheusMarketplace) -> None:
         model = await async_client.blockchain.models.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
-            tags=["string", "string", "string"],
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
+            tags=["machine learning", "image recognition"],
         )
         assert_matches_type(Model, model, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.models.with_raw_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
         )
 
         assert response.is_closed is True
@@ -305,11 +223,11 @@ class TestAsyncModels:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.models.with_streaming_response.create(
-            fee="fee",
-            ipfs_id="ipfsID",
-            model_id="modelID",
-            name="name",
-            stake="stake",
+            fee="0.01",
+            ipfs_id="QmX...",
+            model_id="mod-67890",
+            name="Image Recognition Model",
+            stake="1000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -349,7 +267,7 @@ class TestAsyncModels:
         model = await async_client.blockchain.models.delete(
             "id",
         )
-        assert_matches_type(ModelDeleteResponse, model, path=["response"])
+        assert model is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -360,7 +278,7 @@ class TestAsyncModels:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = await response.parse()
-        assert_matches_type(ModelDeleteResponse, model, path=["response"])
+        assert model is None
 
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -371,7 +289,7 @@ class TestAsyncModels:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = await response.parse()
-            assert_matches_type(ModelDeleteResponse, model, path=["response"])
+            assert model is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -383,86 +301,10 @@ class TestAsyncModels:
             )
 
     @parametrize
-    async def test_method_exists(self, async_client: AsyncMorpheusMarketplace) -> None:
-        model = await async_client.blockchain.models.exists(
-            "id",
-        )
-        assert_matches_type(ModelExistsResponse, model, path=["response"])
-
-    @parametrize
-    async def test_raw_response_exists(self, async_client: AsyncMorpheusMarketplace) -> None:
-        response = await async_client.blockchain.models.with_raw_response.exists(
-            "id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        model = await response.parse()
-        assert_matches_type(ModelExistsResponse, model, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_exists(self, async_client: AsyncMorpheusMarketplace) -> None:
-        async with async_client.blockchain.models.with_streaming_response.exists(
-            "id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            model = await response.parse()
-            assert_matches_type(ModelExistsResponse, model, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_exists(self, async_client: AsyncMorpheusMarketplace) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.blockchain.models.with_raw_response.exists(
-                "",
-            )
-
-    @parametrize
-    async def test_method_resetstats(self, async_client: AsyncMorpheusMarketplace) -> None:
-        model = await async_client.blockchain.models.resetstats(
-            "id",
-        )
-        assert_matches_type(ModelResetstatsResponse, model, path=["response"])
-
-    @parametrize
-    async def test_raw_response_resetstats(self, async_client: AsyncMorpheusMarketplace) -> None:
-        response = await async_client.blockchain.models.with_raw_response.resetstats(
-            "id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        model = await response.parse()
-        assert_matches_type(ModelResetstatsResponse, model, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_resetstats(self, async_client: AsyncMorpheusMarketplace) -> None:
-        async with async_client.blockchain.models.with_streaming_response.resetstats(
-            "id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            model = await response.parse()
-            assert_matches_type(ModelResetstatsResponse, model, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_resetstats(self, async_client: AsyncMorpheusMarketplace) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.blockchain.models.with_raw_response.resetstats(
-                "",
-            )
-
-    @parametrize
     async def test_method_session(self, async_client: AsyncMorpheusMarketplace) -> None:
         model = await async_client.blockchain.models.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
         assert_matches_type(Session, model, path=["response"])
 
@@ -470,7 +312,7 @@ class TestAsyncModels:
     async def test_raw_response_session(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.models.with_raw_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
 
         assert response.is_closed is True
@@ -482,7 +324,7 @@ class TestAsyncModels:
     async def test_streaming_response_session(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.models.with_streaming_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -497,5 +339,5 @@ class TestAsyncModels:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.blockchain.models.with_raw_response.session(
                 id="",
-                session_duration="sessionDuration",
+                session_duration="3600",
             )

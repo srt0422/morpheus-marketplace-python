@@ -49,7 +49,7 @@ class SupplyResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TokenSupply:
-        """Fetches the total supply of MOR tokens."""
+        """Get token supply"""
         return self._get(
             "/blockchain/token/supply",
             options=make_request_options(
@@ -89,7 +89,7 @@ class AsyncSupplyResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TokenSupply:
-        """Fetches the total supply of MOR tokens."""
+        """Get token supply"""
         return await self._get(
             "/blockchain/token/supply",
             options=make_request_options(

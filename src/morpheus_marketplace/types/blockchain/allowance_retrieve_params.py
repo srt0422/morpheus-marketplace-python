@@ -9,4 +9,4 @@ __all__ = ["AllowanceRetrieveParams"]
 
 class AllowanceRetrieveParams(TypedDict, total=False):
     spender: Required[str]
-    """Ethereum address of the spender."""
+    """Spender Ethereum address"""

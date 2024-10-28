@@ -14,7 +14,7 @@ from ....._response import (
     async_to_streamed_response_wrapper,
 )
 from ....._base_client import make_request_options
-from .....types.shared.bid import Bid
+from .....types.blockchain.providers.bids.active_list_response import ActiveListResponse
 
 __all__ = ["ActiveResource", "AsyncActiveResource"]
 
@@ -49,9 +49,9 @@ class ActiveResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> ActiveListResponse:
         """
-        Retrieves active bids associated with a specific provider.
+        List active bids for a provider
 
         Args:
           extra_headers: Send extra headers
@@ -69,7 +69,7 @@ class ActiveResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=ActiveListResponse,
         )
 
 
@@ -103,9 +103,9 @@ class AsyncActiveResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> ActiveListResponse:
         """
-        Retrieves active bids associated with a specific provider.
+        List active bids for a provider
 
         Args:
           extra_headers: Send extra headers
@@ -123,7 +123,7 @@ class AsyncActiveResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=ActiveListResponse,
         )
 
 

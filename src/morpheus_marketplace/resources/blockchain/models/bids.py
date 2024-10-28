@@ -18,8 +18,10 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.shared.bid import Bid
 from ....types.blockchain.models import bid_list_params
+from ....types.blockchain.models.bid_list_response import BidListResponse
+from ....types.blockchain.models.bid_rated_response import BidRatedResponse
+from ....types.blockchain.models.bid_active_response import BidActiveResponse
 
 __all__ = ["BidsResource", "AsyncBidsResource"]
 
@@ -49,21 +51,21 @@ class BidsResource(SyncAPIResource):
         id: str,
         *,
         limit: int | NotGiven = NOT_GIVEN,
-        offset: str | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidListResponse:
         """
-        Retrieves a list of bids associated with a specific model.
+        List bids for a model
 
         Args:
-          limit: Limit for pagination.
+          limit: Maximum number of results to return
 
-          offset: Offset for pagination.
+          offset: Number of results to skip
 
           extra_headers: Send extra headers
 
@@ -90,7 +92,7 @@ class BidsResource(SyncAPIResource):
                     bid_list_params.BidListParams,
                 ),
             ),
-            cast_to=Bid,
+            cast_to=BidListResponse,
         )
 
     def active(
@@ -103,9 +105,9 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidActiveResponse:
         """
-        Fetches active bids associated with a specific model.
+        List active bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -123,7 +125,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidActiveResponse,
         )
 
     def rated(
@@ -136,9 +138,9 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidRatedResponse:
         """
-        Retrieves rated bids for a specified model.
+        List rated bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -156,7 +158,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidRatedResponse,
         )
 
 
@@ -185,21 +187,21 @@ class AsyncBidsResource(AsyncAPIResource):
         id: str,
         *,
         limit: int | NotGiven = NOT_GIVEN,
-        offset: str | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidListResponse:
         """
-        Retrieves a list of bids associated with a specific model.
+        List bids for a model
 
         Args:
-          limit: Limit for pagination.
+          limit: Maximum number of results to return
 
-          offset: Offset for pagination.
+          offset: Number of results to skip
 
           extra_headers: Send extra headers
 
@@ -226,7 +228,7 @@ class AsyncBidsResource(AsyncAPIResource):
                     bid_list_params.BidListParams,
                 ),
             ),
-            cast_to=Bid,
+            cast_to=BidListResponse,
         )
 
     async def active(
@@ -239,9 +241,9 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidActiveResponse:
         """
-        Fetches active bids associated with a specific model.
+        List active bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -259,7 +261,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidActiveResponse,
         )
 
     async def rated(
@@ -272,9 +274,9 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidRatedResponse:
         """
-        Retrieves rated bids for a specified model.
+        List rated bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -292,7 +294,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidRatedResponse,
         )
 
 
