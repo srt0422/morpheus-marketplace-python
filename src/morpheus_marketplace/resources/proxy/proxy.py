@@ -12,6 +12,7 @@ from .sessions import (
 )
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
+from .sessions.sessions import SessionsResource, AsyncSessionsResource
 
 __all__ = ["ProxyResource", "AsyncProxyResource"]
 

@@ -27,28 +27,53 @@ pip install git+ssh://git@github.com/srt0422/morpheus-marketplace-python.git
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from morpheus_marketplace import MorpheusMarketplace
 
-client = MorpheusMarketplace()
+client = MorpheusMarketplace(
+    # This is the default and can be omitted
+    api_key=os.environ.get("X_API_KEY"),
+)
 
-balance = client.blockchain.balance.retrieve()
-print(balance.balance)
+model = client.blockchain.models.create(
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
+)
+print(model.id)
 ```
+
+While you can provide an `api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `X_API_KEY="My API Key"` to your `.env` file
+so that your API Key is not stored in source control.
 
 ## Async usage
 
 Simply import `AsyncMorpheusMarketplace` instead of `MorpheusMarketplace` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from morpheus_marketplace import AsyncMorpheusMarketplace
 
-client = AsyncMorpheusMarketplace()
+client = AsyncMorpheusMarketplace(
+    # This is the default and can be omitted
+    api_key=os.environ.get("X_API_KEY"),
+)
 
 
 async def main() -> None:
-    balance = await client.blockchain.balance.retrieve()
-    print(balance.balance)
+    model = await client.blockchain.models.create(
+        fee="0.01",
+        ipfs_id="QmX...",
+        model_id="mod-67890",
+        name="Image Recognition Model",
+        stake="1000",
+    )
+    print(model.id)
 
 
 asyncio.run(main())
@@ -81,7 +106,13 @@ from morpheus_marketplace import MorpheusMarketplace
 client = MorpheusMarketplace()
 
 try:
-    client.blockchain.balance.retrieve()
+    client.blockchain.models.create(
+        fee="0.01",
+        ipfs_id="QmX...",
+        model_id="mod-67890",
+        name="Image Recognition Model",
+        stake="1000",
+    )
 except morpheus_marketplace.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -124,7 +155,13 @@ client = MorpheusMarketplace(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).blockchain.balance.retrieve()
+client.with_options(max_retries=5).blockchain.models.create(
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
+)
 ```
 
 ### Timeouts
@@ -147,7 +184,13 @@ client = MorpheusMarketplace(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).blockchain.balance.retrieve()
+client.with_options(timeout=5.0).blockchain.models.create(
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -186,11 +229,17 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from morpheus_marketplace import MorpheusMarketplace
 
 client = MorpheusMarketplace()
-response = client.blockchain.balance.with_raw_response.retrieve()
+response = client.blockchain.models.with_raw_response.create(
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
+)
 print(response.headers.get('X-My-Header'))
 
-balance = response.parse()  # get the object that `blockchain.balance.retrieve()` would have returned
-print(balance.balance)
+model = response.parse()  # get the object that `blockchain.models.create()` would have returned
+print(model.id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/srt0422/morpheus-marketplace-python/tree/main/src/morpheus_marketplace/_response.py) object.
@@ -204,7 +253,13 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.blockchain.balance.with_streaming_response.retrieve() as response:
+with client.blockchain.models.with_streaming_response.create(
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():

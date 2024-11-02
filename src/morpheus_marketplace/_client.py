@@ -25,7 +25,7 @@ from ._utils import (
 )
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError
+from ._exceptions import APIStatusError, MorpheusMarketplaceError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -47,17 +47,17 @@ __all__ = [
 
 class MorpheusMarketplace(SyncAPIClient):
     blockchain: resources.BlockchainResource
-    blockchain_bids: resources.BlockchainBidsResource
-    blockchain_sessions: resources.BlockchainSessionsResource
     proxy: resources.ProxyResource
     with_raw_response: MorpheusMarketplaceWithRawResponse
     with_streaming_response: MorpheusMarketplaceWithStreamedResponse
 
     # client options
+    api_key: str
 
     def __init__(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -77,7 +77,18 @@ class MorpheusMarketplace(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous morpheus-marketplace client instance."""
+        """Construct a new synchronous morpheus-marketplace client instance.
+
+        This automatically infers the `api_key` argument from the `X_API_KEY` environment variable if it is not provided.
+        """
+        if api_key is None:
+            api_key = os.environ.get("X_API_KEY")
+        if api_key is None:
+            raise MorpheusMarketplaceError(
+                "The api_key client option must be set either by passing api_key to the client or by setting the X_API_KEY environment variable"
+            )
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("MORPHEUS_MARKETPLACE_BASE_URL")
         if base_url is None:
@@ -95,8 +106,6 @@ class MorpheusMarketplace(SyncAPIClient):
         )
 
         self.blockchain = resources.BlockchainResource(self)
-        self.blockchain_bids = resources.BlockchainBidsResource(self)
-        self.blockchain_sessions = resources.BlockchainSessionsResource(self)
         self.proxy = resources.ProxyResource(self)
         self.with_raw_response = MorpheusMarketplaceWithRawResponse(self)
         self.with_streaming_response = MorpheusMarketplaceWithStreamedResponse(self)
@@ -105,6 +114,12 @@ class MorpheusMarketplace(SyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
+
+    @property
+    @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        return {"X-API-Key": api_key}
 
     @property
     @override
@@ -118,6 +133,7 @@ class MorpheusMarketplace(SyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -151,6 +167,7 @@ class MorpheusMarketplace(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -200,17 +217,17 @@ class MorpheusMarketplace(SyncAPIClient):
 
 class AsyncMorpheusMarketplace(AsyncAPIClient):
     blockchain: resources.AsyncBlockchainResource
-    blockchain_bids: resources.AsyncBlockchainBidsResource
-    blockchain_sessions: resources.AsyncBlockchainSessionsResource
     proxy: resources.AsyncProxyResource
     with_raw_response: AsyncMorpheusMarketplaceWithRawResponse
     with_streaming_response: AsyncMorpheusMarketplaceWithStreamedResponse
 
     # client options
+    api_key: str
 
     def __init__(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -230,7 +247,18 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async morpheus-marketplace client instance."""
+        """Construct a new async morpheus-marketplace client instance.
+
+        This automatically infers the `api_key` argument from the `X_API_KEY` environment variable if it is not provided.
+        """
+        if api_key is None:
+            api_key = os.environ.get("X_API_KEY")
+        if api_key is None:
+            raise MorpheusMarketplaceError(
+                "The api_key client option must be set either by passing api_key to the client or by setting the X_API_KEY environment variable"
+            )
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("MORPHEUS_MARKETPLACE_BASE_URL")
         if base_url is None:
@@ -248,8 +276,6 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
         )
 
         self.blockchain = resources.AsyncBlockchainResource(self)
-        self.blockchain_bids = resources.AsyncBlockchainBidsResource(self)
-        self.blockchain_sessions = resources.AsyncBlockchainSessionsResource(self)
         self.proxy = resources.AsyncProxyResource(self)
         self.with_raw_response = AsyncMorpheusMarketplaceWithRawResponse(self)
         self.with_streaming_response = AsyncMorpheusMarketplaceWithStreamedResponse(self)
@@ -258,6 +284,12 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
+
+    @property
+    @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        return {"X-API-Key": api_key}
 
     @property
     @override
@@ -271,6 +303,7 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -304,6 +337,7 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -354,34 +388,24 @@ class AsyncMorpheusMarketplace(AsyncAPIClient):
 class MorpheusMarketplaceWithRawResponse:
     def __init__(self, client: MorpheusMarketplace) -> None:
         self.blockchain = resources.BlockchainResourceWithRawResponse(client.blockchain)
-        self.blockchain_bids = resources.BlockchainBidsResourceWithRawResponse(client.blockchain_bids)
-        self.blockchain_sessions = resources.BlockchainSessionsResourceWithRawResponse(client.blockchain_sessions)
         self.proxy = resources.ProxyResourceWithRawResponse(client.proxy)
 
 
 class AsyncMorpheusMarketplaceWithRawResponse:
     def __init__(self, client: AsyncMorpheusMarketplace) -> None:
         self.blockchain = resources.AsyncBlockchainResourceWithRawResponse(client.blockchain)
-        self.blockchain_bids = resources.AsyncBlockchainBidsResourceWithRawResponse(client.blockchain_bids)
-        self.blockchain_sessions = resources.AsyncBlockchainSessionsResourceWithRawResponse(client.blockchain_sessions)
         self.proxy = resources.AsyncProxyResourceWithRawResponse(client.proxy)
 
 
 class MorpheusMarketplaceWithStreamedResponse:
     def __init__(self, client: MorpheusMarketplace) -> None:
         self.blockchain = resources.BlockchainResourceWithStreamingResponse(client.blockchain)
-        self.blockchain_bids = resources.BlockchainBidsResourceWithStreamingResponse(client.blockchain_bids)
-        self.blockchain_sessions = resources.BlockchainSessionsResourceWithStreamingResponse(client.blockchain_sessions)
         self.proxy = resources.ProxyResourceWithStreamingResponse(client.proxy)
 
 
 class AsyncMorpheusMarketplaceWithStreamedResponse:
     def __init__(self, client: AsyncMorpheusMarketplace) -> None:
         self.blockchain = resources.AsyncBlockchainResourceWithStreamingResponse(client.blockchain)
-        self.blockchain_bids = resources.AsyncBlockchainBidsResourceWithStreamingResponse(client.blockchain_bids)
-        self.blockchain_sessions = resources.AsyncBlockchainSessionsResourceWithStreamingResponse(
-            client.blockchain_sessions
-        )
         self.proxy = resources.AsyncProxyResourceWithStreamingResponse(client.proxy)
 
 

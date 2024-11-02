@@ -19,7 +19,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.blockchain import allowance_retrieve_params
-from ...types.blockchain.allowance_retrieve_response import AllowanceRetrieveResponse
+from ...types.shared.allowance import Allowance
 
 __all__ = ["AllowanceResource", "AsyncAllowanceResource"]
 
@@ -54,7 +54,7 @@ class AllowanceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AllowanceRetrieveResponse:
+    ) -> Allowance:
         """
         Retrieve allowance
 
@@ -78,7 +78,7 @@ class AllowanceResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"spender": spender}, allowance_retrieve_params.AllowanceRetrieveParams),
             ),
-            cast_to=AllowanceRetrieveResponse,
+            cast_to=Allowance,
         )
 
 
@@ -112,7 +112,7 @@ class AsyncAllowanceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AllowanceRetrieveResponse:
+    ) -> Allowance:
         """
         Retrieve allowance
 
@@ -138,7 +138,7 @@ class AsyncAllowanceResource(AsyncAPIResource):
                     {"spender": spender}, allowance_retrieve_params.AllowanceRetrieveParams
                 ),
             ),
-            cast_to=AllowanceRetrieveResponse,
+            cast_to=Allowance,
         )
 
 

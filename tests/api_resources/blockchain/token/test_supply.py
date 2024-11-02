@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
-from morpheus_marketplace.types.blockchain.token import TokenSupply
+from morpheus_marketplace.types.shared import TokenSupply
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
