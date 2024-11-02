@@ -17,7 +17,6 @@ from ...._utils import (
     maybe_transform,
     async_maybe_transform,
 )
-from .bids.bids import BidsResource, AsyncBidsResource
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -28,7 +27,7 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.blockchain import provider_create_params
-from ....types.blockchain.provider import Provider
+from ....types.shared.provider import Provider
 from ....types.blockchain.provider_list_response import ProviderListResponse
 
 __all__ = ["ProvidersResource", "AsyncProvidersResource"]

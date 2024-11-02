@@ -18,10 +18,8 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
+from ....types.shared.bid_list import BidList
 from ....types.blockchain.models import bid_list_params
-from ....types.blockchain.models.bid_list_response import BidListResponse
-from ....types.blockchain.models.bid_rated_response import BidRatedResponse
-from ....types.blockchain.models.bid_active_response import BidActiveResponse
 
 __all__ = ["BidsResource", "AsyncBidsResource"]
 
@@ -58,7 +56,7 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidListResponse:
+    ) -> BidList:
         """
         List bids for a model
 
@@ -92,7 +90,7 @@ class BidsResource(SyncAPIResource):
                     bid_list_params.BidListParams,
                 ),
             ),
-            cast_to=BidListResponse,
+            cast_to=BidList,
         )
 
     def active(
@@ -105,7 +103,7 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidActiveResponse:
+    ) -> BidList:
         """
         List active bids for a model
 
@@ -125,7 +123,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidActiveResponse,
+            cast_to=BidList,
         )
 
     def rated(
@@ -138,7 +136,7 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidRatedResponse:
+    ) -> BidList:
         """
         List rated bids for a model
 
@@ -158,7 +156,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidRatedResponse,
+            cast_to=BidList,
         )
 
 
@@ -194,7 +192,7 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidListResponse:
+    ) -> BidList:
         """
         List bids for a model
 
@@ -228,7 +226,7 @@ class AsyncBidsResource(AsyncAPIResource):
                     bid_list_params.BidListParams,
                 ),
             ),
-            cast_to=BidListResponse,
+            cast_to=BidList,
         )
 
     async def active(
@@ -241,7 +239,7 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidActiveResponse:
+    ) -> BidList:
         """
         List active bids for a model
 
@@ -261,7 +259,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidActiveResponse,
+            cast_to=BidList,
         )
 
     async def rated(
@@ -274,7 +272,7 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidRatedResponse:
+    ) -> BidList:
         """
         List rated bids for a model
 
@@ -294,7 +292,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidRatedResponse,
+            cast_to=BidList,
         )
 
 

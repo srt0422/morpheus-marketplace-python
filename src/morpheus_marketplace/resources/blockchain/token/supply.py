@@ -14,7 +14,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.blockchain.token.token_supply import TokenSupply
+from ....types.shared.token_supply import TokenSupply
 
 __all__ = ["SupplyResource", "AsyncSupplyResource"]
 
