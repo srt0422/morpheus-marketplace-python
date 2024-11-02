@@ -3,7 +3,7 @@
 from typing import List
 from typing_extensions import TypeAlias
 
-from .provider import Provider
+from ..shared.provider import Provider
 
 __all__ = ["ProviderListResponse"]
 

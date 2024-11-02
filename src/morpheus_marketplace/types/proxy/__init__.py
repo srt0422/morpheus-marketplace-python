@@ -2,6 +2,5 @@
 
 from __future__ import annotations
 
-from .claimable_balance import ClaimableBalance as ClaimableBalance
 from .session_initiate_params import SessionInitiateParams as SessionInitiateParams
 from .session_provider_claim_params import SessionProviderClaimParams as SessionProviderClaimParams

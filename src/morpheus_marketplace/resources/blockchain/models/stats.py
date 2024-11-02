@@ -14,7 +14,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.blockchain.models.model_stats import ModelStats
+from ....types.blockchain.stats import Stats
 
 __all__ = ["StatsResource", "AsyncStatsResource"]
 
@@ -39,7 +39,7 @@ class StatsResource(SyncAPIResource):
         """
         return StatsResourceWithStreamingResponse(self)
 
-    def list(
+    def retrieve(
         self,
         id: str,
         *,
@@ -49,7 +49,7 @@ class StatsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelStats:
+    ) -> Stats:
         """
         Retrieve statistics for a model
 
@@ -69,7 +69,7 @@ class StatsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelStats,
+            cast_to=Stats,
         )
 
 
@@ -93,7 +93,7 @@ class AsyncStatsResource(AsyncAPIResource):
         """
         return AsyncStatsResourceWithStreamingResponse(self)
 
-    async def list(
+    async def retrieve(
         self,
         id: str,
         *,
@@ -103,7 +103,7 @@ class AsyncStatsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelStats:
+    ) -> Stats:
         """
         Retrieve statistics for a model
 
@@ -123,7 +123,7 @@ class AsyncStatsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelStats,
+            cast_to=Stats,
         )
 
 
@@ -131,8 +131,8 @@ class StatsResourceWithRawResponse:
     def __init__(self, stats: StatsResource) -> None:
         self._stats = stats
 
-        self.list = to_raw_response_wrapper(
-            stats.list,
+        self.retrieve = to_raw_response_wrapper(
+            stats.retrieve,
         )
 
 
@@ -140,8 +140,8 @@ class AsyncStatsResourceWithRawResponse:
     def __init__(self, stats: AsyncStatsResource) -> None:
         self._stats = stats
 
-        self.list = async_to_raw_response_wrapper(
-            stats.list,
+        self.retrieve = async_to_raw_response_wrapper(
+            stats.retrieve,
         )
 
 
@@ -149,8 +149,8 @@ class StatsResourceWithStreamingResponse:
     def __init__(self, stats: StatsResource) -> None:
         self._stats = stats
 
-        self.list = to_streamed_response_wrapper(
-            stats.list,
+        self.retrieve = to_streamed_response_wrapper(
+            stats.retrieve,
         )
 
 
@@ -158,6 +158,6 @@ class AsyncStatsResourceWithStreamingResponse:
     def __init__(self, stats: AsyncStatsResource) -> None:
         self._stats = stats
 
-        self.list = async_to_streamed_response_wrapper(
-            stats.list,
+        self.retrieve = async_to_streamed_response_wrapper(
+            stats.retrieve,
         )
