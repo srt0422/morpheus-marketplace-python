@@ -20,14 +20,14 @@ class TestUser:
     @parametrize
     def test_method_list(self, client: MorpheusMarketplace) -> None:
         user = client.blockchain.sessions.user.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert_matches_type(SessionList, user, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: MorpheusMarketplace) -> None:
         user = client.blockchain.sessions.user.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
             limit=10,
             offset=0,
         )
@@ -36,7 +36,7 @@ class TestUser:
     @parametrize
     def test_raw_response_list(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.sessions.user.with_raw_response.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -47,7 +47,7 @@ class TestUser:
     @parametrize
     def test_streaming_response_list(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.sessions.user.with_streaming_response.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -64,14 +64,14 @@ class TestAsyncUser:
     @parametrize
     async def test_method_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         user = await async_client.blockchain.sessions.user.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert_matches_type(SessionList, user, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMorpheusMarketplace) -> None:
         user = await async_client.blockchain.sessions.user.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
             limit=10,
             offset=0,
         )
@@ -80,7 +80,7 @@ class TestAsyncUser:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.sessions.user.with_raw_response.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -91,7 +91,7 @@ class TestAsyncUser:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.sessions.user.with_streaming_response.list(
-            user="user_abc123",
+            user="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

@@ -134,6 +134,8 @@ class ProvidersResource(SyncAPIResource):
         Delete a provider
 
         Args:
+          id: Blockchain address in hexadecimal format without '0x' prefix
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -255,6 +257,8 @@ class AsyncProvidersResource(AsyncAPIResource):
         Delete a provider
 
         Args:
+          id: Blockchain address in hexadecimal format without '0x' prefix
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
