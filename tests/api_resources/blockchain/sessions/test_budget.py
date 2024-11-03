@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
-from morpheus_marketplace.types.blockchain.sessions import BudgetListResponse
+from morpheus_marketplace.types.blockchain.sessions import Budget
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,7 +20,7 @@ class TestBudget:
     @parametrize
     def test_method_list(self, client: MorpheusMarketplace) -> None:
         budget = client.blockchain.sessions.budget.list()
-        assert_matches_type(BudgetListResponse, budget, path=["response"])
+        assert_matches_type(Budget, budget, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: MorpheusMarketplace) -> None:
@@ -29,7 +29,7 @@ class TestBudget:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         budget = response.parse()
-        assert_matches_type(BudgetListResponse, budget, path=["response"])
+        assert_matches_type(Budget, budget, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: MorpheusMarketplace) -> None:
@@ -38,7 +38,7 @@ class TestBudget:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             budget = response.parse()
-            assert_matches_type(BudgetListResponse, budget, path=["response"])
+            assert_matches_type(Budget, budget, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -49,7 +49,7 @@ class TestAsyncBudget:
     @parametrize
     async def test_method_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         budget = await async_client.blockchain.sessions.budget.list()
-        assert_matches_type(BudgetListResponse, budget, path=["response"])
+        assert_matches_type(Budget, budget, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -58,7 +58,7 @@ class TestAsyncBudget:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         budget = await response.parse()
-        assert_matches_type(BudgetListResponse, budget, path=["response"])
+        assert_matches_type(Budget, budget, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -67,6 +67,6 @@ class TestAsyncBudget:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             budget = await response.parse()
-            assert_matches_type(BudgetListResponse, budget, path=["response"])
+            assert_matches_type(Budget, budget, path=["response"])
 
         assert cast(Any, response.is_closed) is True

@@ -11,7 +11,7 @@ __all__ = ["BidCreateParams"]
 
 class BidCreateParams(TypedDict, total=False):
     model_id: Required[Annotated[str, PropertyInfo(alias="modelID")]]
-    """ID of the model the bid is associated with."""
+    """ID of the model to bid on"""
 
     price_per_second: Required[Annotated[str, PropertyInfo(alias="pricePerSecond")]]
-    """Price per second of model usage."""
+    """Bid price per second"""

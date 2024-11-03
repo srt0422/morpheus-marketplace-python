@@ -10,11 +10,7 @@ import pytest
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
 from morpheus_marketplace.types.shared import Session
-from morpheus_marketplace.types.blockchain import (
-    BidCreateResponse,
-    BidDeleteResponse,
-    BidRetrieveResponse,
-)
+from morpheus_marketplace.types.blockchain import Bid
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -25,34 +21,34 @@ class TestBids:
     @parametrize
     def test_method_create(self, client: MorpheusMarketplace) -> None:
         bid = client.blockchain.bids.create(
-            model_id="modelID",
-            price_per_second="pricePerSecond",
+            model_id="model_12345",
+            price_per_second="0.005",
         )
-        assert_matches_type(BidCreateResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.bids.with_raw_response.create(
-            model_id="modelID",
-            price_per_second="pricePerSecond",
+            model_id="model_12345",
+            price_per_second="0.005",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = response.parse()
-        assert_matches_type(BidCreateResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.bids.with_streaming_response.create(
-            model_id="modelID",
-            price_per_second="pricePerSecond",
+            model_id="model_12345",
+            price_per_second="0.005",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = response.parse()
-            assert_matches_type(BidCreateResponse, bid, path=["response"])
+            assert_matches_type(Bid, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -61,7 +57,7 @@ class TestBids:
         bid = client.blockchain.bids.retrieve(
             "id",
         )
-        assert_matches_type(BidRetrieveResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: MorpheusMarketplace) -> None:
@@ -72,7 +68,7 @@ class TestBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = response.parse()
-        assert_matches_type(BidRetrieveResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: MorpheusMarketplace) -> None:
@@ -83,7 +79,7 @@ class TestBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = response.parse()
-            assert_matches_type(BidRetrieveResponse, bid, path=["response"])
+            assert_matches_type(Bid, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -99,7 +95,7 @@ class TestBids:
         bid = client.blockchain.bids.delete(
             "id",
         )
-        assert_matches_type(BidDeleteResponse, bid, path=["response"])
+        assert bid is None
 
     @parametrize
     def test_raw_response_delete(self, client: MorpheusMarketplace) -> None:
@@ -110,7 +106,7 @@ class TestBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = response.parse()
-        assert_matches_type(BidDeleteResponse, bid, path=["response"])
+        assert bid is None
 
     @parametrize
     def test_streaming_response_delete(self, client: MorpheusMarketplace) -> None:
@@ -121,7 +117,7 @@ class TestBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = response.parse()
-            assert_matches_type(BidDeleteResponse, bid, path=["response"])
+            assert bid is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -136,7 +132,7 @@ class TestBids:
     def test_method_session(self, client: MorpheusMarketplace) -> None:
         bid = client.blockchain.bids.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
         assert_matches_type(Session, bid, path=["response"])
 
@@ -144,7 +140,7 @@ class TestBids:
     def test_raw_response_session(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.bids.with_raw_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
 
         assert response.is_closed is True
@@ -156,7 +152,7 @@ class TestBids:
     def test_streaming_response_session(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.bids.with_streaming_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -171,7 +167,7 @@ class TestBids:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.blockchain.bids.with_raw_response.session(
                 id="",
-                session_duration="sessionDuration",
+                session_duration="3600",
             )
 
 
@@ -181,34 +177,34 @@ class TestAsyncBids:
     @parametrize
     async def test_method_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         bid = await async_client.blockchain.bids.create(
-            model_id="modelID",
-            price_per_second="pricePerSecond",
+            model_id="model_12345",
+            price_per_second="0.005",
         )
-        assert_matches_type(BidCreateResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.bids.with_raw_response.create(
-            model_id="modelID",
-            price_per_second="pricePerSecond",
+            model_id="model_12345",
+            price_per_second="0.005",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = await response.parse()
-        assert_matches_type(BidCreateResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.bids.with_streaming_response.create(
-            model_id="modelID",
-            price_per_second="pricePerSecond",
+            model_id="model_12345",
+            price_per_second="0.005",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = await response.parse()
-            assert_matches_type(BidCreateResponse, bid, path=["response"])
+            assert_matches_type(Bid, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -217,7 +213,7 @@ class TestAsyncBids:
         bid = await async_client.blockchain.bids.retrieve(
             "id",
         )
-        assert_matches_type(BidRetrieveResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -228,7 +224,7 @@ class TestAsyncBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = await response.parse()
-        assert_matches_type(BidRetrieveResponse, bid, path=["response"])
+        assert_matches_type(Bid, bid, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -239,7 +235,7 @@ class TestAsyncBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = await response.parse()
-            assert_matches_type(BidRetrieveResponse, bid, path=["response"])
+            assert_matches_type(Bid, bid, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -255,7 +251,7 @@ class TestAsyncBids:
         bid = await async_client.blockchain.bids.delete(
             "id",
         )
-        assert_matches_type(BidDeleteResponse, bid, path=["response"])
+        assert bid is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -266,7 +262,7 @@ class TestAsyncBids:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         bid = await response.parse()
-        assert_matches_type(BidDeleteResponse, bid, path=["response"])
+        assert bid is None
 
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -277,7 +273,7 @@ class TestAsyncBids:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             bid = await response.parse()
-            assert_matches_type(BidDeleteResponse, bid, path=["response"])
+            assert bid is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -292,7 +288,7 @@ class TestAsyncBids:
     async def test_method_session(self, async_client: AsyncMorpheusMarketplace) -> None:
         bid = await async_client.blockchain.bids.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
         assert_matches_type(Session, bid, path=["response"])
 
@@ -300,7 +296,7 @@ class TestAsyncBids:
     async def test_raw_response_session(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.bids.with_raw_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         )
 
         assert response.is_closed is True
@@ -312,7 +308,7 @@ class TestAsyncBids:
     async def test_streaming_response_session(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.bids.with_streaming_response.session(
             id="id",
-            session_duration="sessionDuration",
+            session_duration="3600",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -327,5 +323,5 @@ class TestAsyncBids:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.blockchain.bids.with_raw_response.session(
                 id="",
-                session_duration="sessionDuration",
+                session_duration="3600",
             )

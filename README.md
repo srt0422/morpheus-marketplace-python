@@ -15,8 +15,8 @@ The REST API documentation can be found on [docs.morpheus-marketplace.com](https
 ## Installation
 
 ```sh
-# install from this staging repo
-pip install git+ssh://git@github.com/stainless-sdks/morpheus-marketplace-python.git
+# install from the production repo
+pip install git+ssh://git@github.com/srt0422/morpheus-marketplace-python.git
 ```
 
 > [!NOTE]
@@ -27,40 +27,53 @@ pip install git+ssh://git@github.com/stainless-sdks/morpheus-marketplace-python.
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from morpheus_marketplace import MorpheusMarketplace
 
-client = MorpheusMarketplace()
+client = MorpheusMarketplace(
+    # This is the default and can be omitted
+    api_key=os.environ.get("X_API_KEY"),
+)
 
 model = client.blockchain.models.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
 )
-print(model.details)
+print(model.id)
 ```
+
+While you can provide an `api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `X_API_KEY="My API Key"` to your `.env` file
+so that your API Key is not stored in source control.
 
 ## Async usage
 
 Simply import `AsyncMorpheusMarketplace` instead of `MorpheusMarketplace` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from morpheus_marketplace import AsyncMorpheusMarketplace
 
-client = AsyncMorpheusMarketplace()
+client = AsyncMorpheusMarketplace(
+    # This is the default and can be omitted
+    api_key=os.environ.get("X_API_KEY"),
+)
 
 
 async def main() -> None:
     model = await client.blockchain.models.create(
-        fee="fee",
-        ipfs_id="ipfsID",
-        model_id="modelID",
-        name="name",
-        stake="stake",
+        fee="0.01",
+        ipfs_id="QmX...",
+        model_id="mod-67890",
+        name="Image Recognition Model",
+        stake="1000",
     )
-    print(model.details)
+    print(model.id)
 
 
 asyncio.run(main())
@@ -94,11 +107,11 @@ client = MorpheusMarketplace()
 
 try:
     client.blockchain.models.create(
-        fee="fee",
-        ipfs_id="ipfsID",
-        model_id="modelID",
-        name="name",
-        stake="stake",
+        fee="0.01",
+        ipfs_id="QmX...",
+        model_id="mod-67890",
+        name="Image Recognition Model",
+        stake="1000",
     )
 except morpheus_marketplace.APIConnectionError as e:
     print("The server could not be reached")
@@ -143,11 +156,11 @@ client = MorpheusMarketplace(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).blockchain.models.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
 )
 ```
 
@@ -172,11 +185,11 @@ client = MorpheusMarketplace(
 
 # Override per-request:
 client.with_options(timeout=5.0).blockchain.models.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
 )
 ```
 
@@ -217,21 +230,21 @@ from morpheus_marketplace import MorpheusMarketplace
 
 client = MorpheusMarketplace()
 response = client.blockchain.models.with_raw_response.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
 )
 print(response.headers.get('X-My-Header'))
 
 model = response.parse()  # get the object that `blockchain.models.create()` would have returned
-print(model.details)
+print(model.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/morpheus-marketplace-python/tree/main/src/morpheus_marketplace/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/srt0422/morpheus-marketplace-python/tree/main/src/morpheus_marketplace/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/morpheus-marketplace-python/tree/main/src/morpheus_marketplace/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/srt0422/morpheus-marketplace-python/tree/main/src/morpheus_marketplace/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -241,11 +254,11 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.blockchain.models.with_streaming_response.create(
-    fee="fee",
-    ipfs_id="ipfsID",
-    model_id="modelID",
-    name="name",
-    stake="stake",
+    fee="0.01",
+    ipfs_id="QmX...",
+    model_id="mod-67890",
+    name="Image Recognition Model",
+    stake="1000",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
@@ -331,7 +344,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/morpheus-marketplace-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/srt0422/morpheus-marketplace-python/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 

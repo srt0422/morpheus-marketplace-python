@@ -9,10 +9,10 @@ __all__ = ["UserListParams"]
 
 class UserListParams(TypedDict, total=False):
     user: Required[str]
-    """Ethereum address of the user."""
+    """User identifier"""
 
     limit: int
-    """Limit for pagination."""
+    """Maximum number of results to return"""
 
-    offset: str
-    """Offset for pagination."""
+    offset: int
+    """Number of results to skip"""

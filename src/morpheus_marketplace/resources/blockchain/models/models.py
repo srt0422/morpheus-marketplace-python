@@ -22,15 +22,7 @@ from .stats import (
     StatsResourceWithStreamingResponse,
     AsyncStatsResourceWithStreamingResponse,
 )
-from .minstake import (
-    MinstakeResource,
-    AsyncMinstakeResource,
-    MinstakeResourceWithRawResponse,
-    AsyncMinstakeResourceWithRawResponse,
-    MinstakeResourceWithStreamingResponse,
-    AsyncMinstakeResourceWithStreamingResponse,
-)
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ...._utils import (
     maybe_transform,
     async_maybe_transform,
@@ -48,9 +40,6 @@ from ....types.blockchain import model_create_params, model_session_params
 from ....types.shared.session import Session
 from ....types.blockchain.model import Model
 from ....types.blockchain.model_list_response import ModelListResponse
-from ....types.blockchain.model_delete_response import ModelDeleteResponse
-from ....types.blockchain.model_exists_response import ModelExistsResponse
-from ....types.blockchain.model_resetstats_response import ModelResetstatsResponse
 
 __all__ = ["ModelsResource", "AsyncModelsResource"]
 
@@ -59,10 +48,6 @@ class ModelsResource(SyncAPIResource):
     @cached_property
     def bids(self) -> BidsResource:
         return BidsResource(self._client)
-
-    @cached_property
-    def minstake(self) -> MinstakeResource:
-        return MinstakeResource(self._client)
 
     @cached_property
     def stats(self) -> StatsResource:
@@ -74,7 +59,7 @@ class ModelsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return ModelsResourceWithRawResponse(self)
 
@@ -83,7 +68,7 @@ class ModelsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return ModelsResourceWithStreamingResponse(self)
 
@@ -104,20 +89,20 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
-        Registers a new model on the blockchain.
+        Create a new model
 
         Args:
-          fee: Fee amount required for model usage.
+          fee: Fee for using the model
 
-          ipfs_id: IPFS hash storing the model’s data.
+          ipfs_id: IPFS ID where the model is stored
 
-          model_id: Unique identifier for the model.
+          model_id: Model ID provided by the user
 
-          name: Name of the model.
+          name: Name of the model
 
-          stake: Stake amount for the model.
+          stake: Amount to stake for the model
 
-          tags: Descriptive tags for categorizing the model.
+          tags: Tags associated with the model
 
           extra_headers: Send extra headers
 
@@ -156,7 +141,7 @@ class ModelsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelListResponse:
-        """Fetches a list of all models available on the blockchain."""
+        """List all available models"""
         return self._get(
             "/blockchain/models",
             options=make_request_options(
@@ -175,9 +160,9 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelDeleteResponse:
+    ) -> None:
         """
-        Removes a model from the blockchain by its ID.
+        Delete a model
 
         Args:
           extra_headers: Send extra headers
@@ -190,78 +175,13 @@ class ModelsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/blockchain/models/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelDeleteResponse,
-        )
-
-    def exists(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelExistsResponse:
-        """
-        Checks if a model exists on the blockchain.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._get(
-            f"/blockchain/models/{id}/exists",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ModelExistsResponse,
-        )
-
-    def resetstats(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelResetstatsResponse:
-        """
-        Resets the statistics of a model.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._post(
-            f"/blockchain/models/{id}/resetstats",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ModelResetstatsResponse,
+            cast_to=NoneType,
         )
 
     def session(
@@ -277,11 +197,10 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Opens a session with a specific model, associating it with a provider on the
-        blockchain.
+        Start a session for a model
 
         Args:
-          session_duration: The duration of the session in seconds.
+          session_duration: Duration of the session
 
           extra_headers: Send extra headers
 
@@ -309,10 +228,6 @@ class AsyncModelsResource(AsyncAPIResource):
         return AsyncBidsResource(self._client)
 
     @cached_property
-    def minstake(self) -> AsyncMinstakeResource:
-        return AsyncMinstakeResource(self._client)
-
-    @cached_property
     def stats(self) -> AsyncStatsResource:
         return AsyncStatsResource(self._client)
 
@@ -322,7 +237,7 @@ class AsyncModelsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncModelsResourceWithRawResponse(self)
 
@@ -331,7 +246,7 @@ class AsyncModelsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncModelsResourceWithStreamingResponse(self)
 
@@ -352,20 +267,20 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
-        Registers a new model on the blockchain.
+        Create a new model
 
         Args:
-          fee: Fee amount required for model usage.
+          fee: Fee for using the model
 
-          ipfs_id: IPFS hash storing the model’s data.
+          ipfs_id: IPFS ID where the model is stored
 
-          model_id: Unique identifier for the model.
+          model_id: Model ID provided by the user
 
-          name: Name of the model.
+          name: Name of the model
 
-          stake: Stake amount for the model.
+          stake: Amount to stake for the model
 
-          tags: Descriptive tags for categorizing the model.
+          tags: Tags associated with the model
 
           extra_headers: Send extra headers
 
@@ -404,7 +319,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelListResponse:
-        """Fetches a list of all models available on the blockchain."""
+        """List all available models"""
         return await self._get(
             "/blockchain/models",
             options=make_request_options(
@@ -423,9 +338,9 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelDeleteResponse:
+    ) -> None:
         """
-        Removes a model from the blockchain by its ID.
+        Delete a model
 
         Args:
           extra_headers: Send extra headers
@@ -438,78 +353,13 @@ class AsyncModelsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/blockchain/models/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelDeleteResponse,
-        )
-
-    async def exists(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelExistsResponse:
-        """
-        Checks if a model exists on the blockchain.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._get(
-            f"/blockchain/models/{id}/exists",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ModelExistsResponse,
-        )
-
-    async def resetstats(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelResetstatsResponse:
-        """
-        Resets the statistics of a model.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._post(
-            f"/blockchain/models/{id}/resetstats",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ModelResetstatsResponse,
+            cast_to=NoneType,
         )
 
     async def session(
@@ -525,11 +375,10 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Opens a session with a specific model, associating it with a provider on the
-        blockchain.
+        Start a session for a model
 
         Args:
-          session_duration: The duration of the session in seconds.
+          session_duration: Duration of the session
 
           extra_headers: Send extra headers
 
@@ -566,12 +415,6 @@ class ModelsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             models.delete,
         )
-        self.exists = to_raw_response_wrapper(
-            models.exists,
-        )
-        self.resetstats = to_raw_response_wrapper(
-            models.resetstats,
-        )
         self.session = to_raw_response_wrapper(
             models.session,
         )
@@ -579,10 +422,6 @@ class ModelsResourceWithRawResponse:
     @cached_property
     def bids(self) -> BidsResourceWithRawResponse:
         return BidsResourceWithRawResponse(self._models.bids)
-
-    @cached_property
-    def minstake(self) -> MinstakeResourceWithRawResponse:
-        return MinstakeResourceWithRawResponse(self._models.minstake)
 
     @cached_property
     def stats(self) -> StatsResourceWithRawResponse:
@@ -602,12 +441,6 @@ class AsyncModelsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             models.delete,
         )
-        self.exists = async_to_raw_response_wrapper(
-            models.exists,
-        )
-        self.resetstats = async_to_raw_response_wrapper(
-            models.resetstats,
-        )
         self.session = async_to_raw_response_wrapper(
             models.session,
         )
@@ -615,10 +448,6 @@ class AsyncModelsResourceWithRawResponse:
     @cached_property
     def bids(self) -> AsyncBidsResourceWithRawResponse:
         return AsyncBidsResourceWithRawResponse(self._models.bids)
-
-    @cached_property
-    def minstake(self) -> AsyncMinstakeResourceWithRawResponse:
-        return AsyncMinstakeResourceWithRawResponse(self._models.minstake)
 
     @cached_property
     def stats(self) -> AsyncStatsResourceWithRawResponse:
@@ -638,12 +467,6 @@ class ModelsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             models.delete,
         )
-        self.exists = to_streamed_response_wrapper(
-            models.exists,
-        )
-        self.resetstats = to_streamed_response_wrapper(
-            models.resetstats,
-        )
         self.session = to_streamed_response_wrapper(
             models.session,
         )
@@ -651,10 +474,6 @@ class ModelsResourceWithStreamingResponse:
     @cached_property
     def bids(self) -> BidsResourceWithStreamingResponse:
         return BidsResourceWithStreamingResponse(self._models.bids)
-
-    @cached_property
-    def minstake(self) -> MinstakeResourceWithStreamingResponse:
-        return MinstakeResourceWithStreamingResponse(self._models.minstake)
 
     @cached_property
     def stats(self) -> StatsResourceWithStreamingResponse:
@@ -674,12 +493,6 @@ class AsyncModelsResourceWithStreamingResponse:
         self.delete = async_to_streamed_response_wrapper(
             models.delete,
         )
-        self.exists = async_to_streamed_response_wrapper(
-            models.exists,
-        )
-        self.resetstats = async_to_streamed_response_wrapper(
-            models.resetstats,
-        )
         self.session = async_to_streamed_response_wrapper(
             models.session,
         )
@@ -687,10 +500,6 @@ class AsyncModelsResourceWithStreamingResponse:
     @cached_property
     def bids(self) -> AsyncBidsResourceWithStreamingResponse:
         return AsyncBidsResourceWithStreamingResponse(self._models.bids)
-
-    @cached_property
-    def minstake(self) -> AsyncMinstakeResourceWithStreamingResponse:
-        return AsyncMinstakeResourceWithStreamingResponse(self._models.minstake)
 
     @cached_property
     def stats(self) -> AsyncStatsResourceWithStreamingResponse:

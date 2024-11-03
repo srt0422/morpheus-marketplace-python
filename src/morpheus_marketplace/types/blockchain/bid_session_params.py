@@ -11,4 +11,4 @@ __all__ = ["BidSessionParams"]
 
 class BidSessionParams(TypedDict, total=False):
     session_duration: Required[Annotated[str, PropertyInfo(alias="sessionDuration")]]
-    """The duration of the session in seconds."""
+    """Duration of the session"""

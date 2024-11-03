@@ -14,7 +14,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.blockchain.balance import Balance
+from ...types.shared.balance import Balance
 
 __all__ = ["BalanceResource", "AsyncBalanceResource"]
 
@@ -26,7 +26,7 @@ class BalanceResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return BalanceResourceWithRawResponse(self)
 
@@ -35,7 +35,7 @@ class BalanceResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return BalanceResourceWithStreamingResponse(self)
 
@@ -49,7 +49,7 @@ class BalanceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Balance:
-        """Retrieves the ETH and MOR token balances of the user."""
+        """Retrieve balance"""
         return self._get(
             "/blockchain/balance",
             options=make_request_options(
@@ -66,7 +66,7 @@ class AsyncBalanceResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncBalanceResourceWithRawResponse(self)
 
@@ -75,7 +75,7 @@ class AsyncBalanceResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncBalanceResourceWithStreamingResponse(self)
 
@@ -89,7 +89,7 @@ class AsyncBalanceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Balance:
-        """Retrieves the ETH and MOR token balances of the user."""
+        """Retrieve balance"""
         return await self._get(
             "/blockchain/balance",
             options=make_request_options(

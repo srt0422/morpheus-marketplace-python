@@ -11,10 +11,10 @@ __all__ = ["SessionCreateParams"]
 
 class SessionCreateParams(TypedDict, total=False):
     approval: Required[str]
-    """Approval data for session initiation."""
+    """Approval identifier"""
 
     approval_sig: Required[Annotated[str, PropertyInfo(alias="approvalSig")]]
-    """Digital signature associated with the approval."""
+    """Signature for the approval"""
 
     stake: Required[str]
-    """Amount of tokens staked for the session."""
+    """Stake amount for the session"""

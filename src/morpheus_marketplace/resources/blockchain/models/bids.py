@@ -18,7 +18,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.shared.bid import Bid
+from ....types.shared.bid_list import BidList
 from ....types.blockchain.models import bid_list_params
 
 __all__ = ["BidsResource", "AsyncBidsResource"]
@@ -31,7 +31,7 @@ class BidsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return BidsResourceWithRawResponse(self)
 
@@ -40,7 +40,7 @@ class BidsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return BidsResourceWithStreamingResponse(self)
 
@@ -49,21 +49,21 @@ class BidsResource(SyncAPIResource):
         id: str,
         *,
         limit: int | NotGiven = NOT_GIVEN,
-        offset: str | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidList:
         """
-        Retrieves a list of bids associated with a specific model.
+        List bids for a model
 
         Args:
-          limit: Limit for pagination.
+          limit: Maximum number of results to return
 
-          offset: Offset for pagination.
+          offset: Number of results to skip
 
           extra_headers: Send extra headers
 
@@ -90,7 +90,7 @@ class BidsResource(SyncAPIResource):
                     bid_list_params.BidListParams,
                 ),
             ),
-            cast_to=Bid,
+            cast_to=BidList,
         )
 
     def active(
@@ -103,9 +103,9 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidList:
         """
-        Fetches active bids associated with a specific model.
+        List active bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -123,7 +123,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidList,
         )
 
     def rated(
@@ -136,9 +136,9 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidList:
         """
-        Retrieves rated bids for a specified model.
+        List rated bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -156,7 +156,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidList,
         )
 
 
@@ -167,7 +167,7 @@ class AsyncBidsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncBidsResourceWithRawResponse(self)
 
@@ -176,7 +176,7 @@ class AsyncBidsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncBidsResourceWithStreamingResponse(self)
 
@@ -185,21 +185,21 @@ class AsyncBidsResource(AsyncAPIResource):
         id: str,
         *,
         limit: int | NotGiven = NOT_GIVEN,
-        offset: str | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidList:
         """
-        Retrieves a list of bids associated with a specific model.
+        List bids for a model
 
         Args:
-          limit: Limit for pagination.
+          limit: Maximum number of results to return
 
-          offset: Offset for pagination.
+          offset: Number of results to skip
 
           extra_headers: Send extra headers
 
@@ -226,7 +226,7 @@ class AsyncBidsResource(AsyncAPIResource):
                     bid_list_params.BidListParams,
                 ),
             ),
-            cast_to=Bid,
+            cast_to=BidList,
         )
 
     async def active(
@@ -239,9 +239,9 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidList:
         """
-        Fetches active bids associated with a specific model.
+        List active bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -259,7 +259,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidList,
         )
 
     async def rated(
@@ -272,9 +272,9 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Bid:
+    ) -> BidList:
         """
-        Retrieves rated bids for a specified model.
+        List rated bids for a model
 
         Args:
           extra_headers: Send extra headers
@@ -292,7 +292,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Bid,
+            cast_to=BidList,
         )
 
 

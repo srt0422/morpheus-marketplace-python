@@ -14,7 +14,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.blockchain.token.token_supply import TokenSupply
+from ....types.shared.token_supply import TokenSupply
 
 __all__ = ["SupplyResource", "AsyncSupplyResource"]
 
@@ -26,7 +26,7 @@ class SupplyResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return SupplyResourceWithRawResponse(self)
 
@@ -35,7 +35,7 @@ class SupplyResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return SupplyResourceWithStreamingResponse(self)
 
@@ -49,7 +49,7 @@ class SupplyResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TokenSupply:
-        """Fetches the total supply of MOR tokens."""
+        """Get token supply"""
         return self._get(
             "/blockchain/token/supply",
             options=make_request_options(
@@ -66,7 +66,7 @@ class AsyncSupplyResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncSupplyResourceWithRawResponse(self)
 
@@ -75,7 +75,7 @@ class AsyncSupplyResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncSupplyResourceWithStreamingResponse(self)
 
@@ -89,7 +89,7 @@ class AsyncSupplyResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TokenSupply:
-        """Fetches the total supply of MOR tokens."""
+        """Get token supply"""
         return await self._get(
             "/blockchain/token/supply",
             options=make_request_options(

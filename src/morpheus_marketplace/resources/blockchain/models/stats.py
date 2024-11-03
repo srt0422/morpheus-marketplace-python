@@ -14,7 +14,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.blockchain.models.model_stats import ModelStats
+from ....types.blockchain.stats import Stats
 
 __all__ = ["StatsResource", "AsyncStatsResource"]
 
@@ -26,7 +26,7 @@ class StatsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return StatsResourceWithRawResponse(self)
 
@@ -35,7 +35,7 @@ class StatsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return StatsResourceWithStreamingResponse(self)
 
@@ -49,9 +49,9 @@ class StatsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelStats:
+    ) -> Stats:
         """
-        Retrieves the statistics of a model.
+        Retrieve statistics for a model
 
         Args:
           extra_headers: Send extra headers
@@ -69,7 +69,7 @@ class StatsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelStats,
+            cast_to=Stats,
         )
 
 
@@ -80,7 +80,7 @@ class AsyncStatsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncStatsResourceWithRawResponse(self)
 
@@ -89,7 +89,7 @@ class AsyncStatsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncStatsResourceWithStreamingResponse(self)
 
@@ -103,9 +103,9 @@ class AsyncStatsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelStats:
+    ) -> Stats:
         """
-        Retrieves the statistics of a model.
+        Retrieve statistics for a model
 
         Args:
           extra_headers: Send extra headers
@@ -123,7 +123,7 @@ class AsyncStatsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelStats,
+            cast_to=Stats,
         )
 
 

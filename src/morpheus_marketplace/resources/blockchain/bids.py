@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import (
     maybe_transform,
     async_maybe_transform,
@@ -19,10 +19,8 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.blockchain import bid_create_params, bid_session_params
+from ...types.blockchain.bid import Bid
 from ...types.shared.session import Session
-from ...types.blockchain.bid_create_response import BidCreateResponse
-from ...types.blockchain.bid_delete_response import BidDeleteResponse
-from ...types.blockchain.bid_retrieve_response import BidRetrieveResponse
 
 __all__ = ["BidsResource", "AsyncBidsResource"]
 
@@ -34,7 +32,7 @@ class BidsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return BidsResourceWithRawResponse(self)
 
@@ -43,7 +41,7 @@ class BidsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return BidsResourceWithStreamingResponse(self)
 
@@ -58,14 +56,14 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidCreateResponse:
+    ) -> Bid:
         """
-        Places a bid for a model on the blockchain.
+        Create a new bid
 
         Args:
-          model_id: ID of the model the bid is associated with.
+          model_id: ID of the model to bid on
 
-          price_per_second: Price per second of model usage.
+          price_per_second: Bid price per second
 
           extra_headers: Send extra headers
 
@@ -87,7 +85,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidCreateResponse,
+            cast_to=Bid,
         )
 
     def retrieve(
@@ -100,9 +98,9 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidRetrieveResponse:
+    ) -> Bid:
         """
-        Retrieves bid details by its ID.
+        Retrieve a bid
 
         Args:
           extra_headers: Send extra headers
@@ -120,7 +118,7 @@ class BidsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidRetrieveResponse,
+            cast_to=Bid,
         )
 
     def delete(
@@ -133,9 +131,9 @@ class BidsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidDeleteResponse:
+    ) -> None:
         """
-        Removes a bid from the blockchain by its ID.
+        Delete a bid
 
         Args:
           extra_headers: Send extra headers
@@ -148,12 +146,13 @@ class BidsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/blockchain/bids/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidDeleteResponse,
+            cast_to=NoneType,
         )
 
     def session(
@@ -169,11 +168,10 @@ class BidsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Opens a session based on a specific bid ID, linking the provider and model via a
-        bid.
+        Start a session for a bid
 
         Args:
-          session_duration: The duration of the session in seconds.
+          session_duration: Duration of the session
 
           extra_headers: Send extra headers
 
@@ -202,7 +200,7 @@ class AsyncBidsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncBidsResourceWithRawResponse(self)
 
@@ -211,7 +209,7 @@ class AsyncBidsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncBidsResourceWithStreamingResponse(self)
 
@@ -226,14 +224,14 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidCreateResponse:
+    ) -> Bid:
         """
-        Places a bid for a model on the blockchain.
+        Create a new bid
 
         Args:
-          model_id: ID of the model the bid is associated with.
+          model_id: ID of the model to bid on
 
-          price_per_second: Price per second of model usage.
+          price_per_second: Bid price per second
 
           extra_headers: Send extra headers
 
@@ -255,7 +253,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidCreateResponse,
+            cast_to=Bid,
         )
 
     async def retrieve(
@@ -268,9 +266,9 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidRetrieveResponse:
+    ) -> Bid:
         """
-        Retrieves bid details by its ID.
+        Retrieve a bid
 
         Args:
           extra_headers: Send extra headers
@@ -288,7 +286,7 @@ class AsyncBidsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidRetrieveResponse,
+            cast_to=Bid,
         )
 
     async def delete(
@@ -301,9 +299,9 @@ class AsyncBidsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BidDeleteResponse:
+    ) -> None:
         """
-        Removes a bid from the blockchain by its ID.
+        Delete a bid
 
         Args:
           extra_headers: Send extra headers
@@ -316,12 +314,13 @@ class AsyncBidsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/blockchain/bids/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BidDeleteResponse,
+            cast_to=NoneType,
         )
 
     async def session(
@@ -337,11 +336,10 @@ class AsyncBidsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Opens a session based on a specific bid ID, linking the provider and model via a
-        bid.
+        Start a session for a bid
 
         Args:
-          session_duration: The duration of the session in seconds.
+          session_duration: Duration of the session
 
           extra_headers: Send extra headers
 

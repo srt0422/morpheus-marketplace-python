@@ -19,7 +19,7 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.blockchain.sessions import user_list_params
-from ....types.blockchain.sessions.user_list_response import UserListResponse
+from ....types.shared.session_list import SessionList
 
 __all__ = ["UserResource", "AsyncUserResource"]
 
@@ -31,7 +31,7 @@ class UserResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return UserResourceWithRawResponse(self)
 
@@ -40,7 +40,7 @@ class UserResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return UserResourceWithStreamingResponse(self)
 
@@ -49,24 +49,23 @@ class UserResource(SyncAPIResource):
         *,
         user: str,
         limit: int | NotGiven = NOT_GIVEN,
-        offset: str | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserListResponse:
+    ) -> SessionList:
         """
-        Retrieves a list of all active and closed sessions associated with a specific
-        user.
+        List user sessions
 
         Args:
-          user: Ethereum address of the user.
+          user: User identifier
 
-          limit: Limit for pagination.
+          limit: Maximum number of results to return
 
-          offset: Offset for pagination.
+          offset: Number of results to skip
 
           extra_headers: Send extra headers
 
@@ -92,7 +91,7 @@ class UserResource(SyncAPIResource):
                     user_list_params.UserListParams,
                 ),
             ),
-            cast_to=UserListResponse,
+            cast_to=SessionList,
         )
 
 
@@ -103,7 +102,7 @@ class AsyncUserResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncUserResourceWithRawResponse(self)
 
@@ -112,7 +111,7 @@ class AsyncUserResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncUserResourceWithStreamingResponse(self)
 
@@ -121,24 +120,23 @@ class AsyncUserResource(AsyncAPIResource):
         *,
         user: str,
         limit: int | NotGiven = NOT_GIVEN,
-        offset: str | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> UserListResponse:
+    ) -> SessionList:
         """
-        Retrieves a list of all active and closed sessions associated with a specific
-        user.
+        List user sessions
 
         Args:
-          user: Ethereum address of the user.
+          user: User identifier
 
-          limit: Limit for pagination.
+          limit: Maximum number of results to return
 
-          offset: Offset for pagination.
+          offset: Number of results to skip
 
           extra_headers: Send extra headers
 
@@ -164,7 +162,7 @@ class AsyncUserResource(AsyncAPIResource):
                     user_list_params.UserListParams,
                 ),
             ),
-            cast_to=UserListResponse,
+            cast_to=SessionList,
         )
 
 

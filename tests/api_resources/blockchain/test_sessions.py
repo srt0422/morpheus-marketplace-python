@@ -10,7 +10,6 @@ import pytest
 from tests.utils import assert_matches_type
 from morpheus_marketplace import MorpheusMarketplace, AsyncMorpheusMarketplace
 from morpheus_marketplace.types.shared import Session
-from morpheus_marketplace.types.blockchain import SessionCloseResponse, SessionRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,18 +20,18 @@ class TestSessions:
     @parametrize
     def test_method_create(self, client: MorpheusMarketplace) -> None:
         session = client.blockchain.sessions.create(
-            approval="approval",
-            approval_sig="approvalSig",
-            stake="stake",
+            approval="approval_abc123",
+            approval_sig="signature_xyz789",
+            stake="500",
         )
         assert_matches_type(Session, session, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.sessions.with_raw_response.create(
-            approval="approval",
-            approval_sig="approvalSig",
-            stake="stake",
+            approval="approval_abc123",
+            approval_sig="signature_xyz789",
+            stake="500",
         )
 
         assert response.is_closed is True
@@ -43,9 +42,9 @@ class TestSessions:
     @parametrize
     def test_streaming_response_create(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.sessions.with_streaming_response.create(
-            approval="approval",
-            approval_sig="approvalSig",
-            stake="stake",
+            approval="approval_abc123",
+            approval_sig="signature_xyz789",
+            stake="500",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,7 +59,7 @@ class TestSessions:
         session = client.blockchain.sessions.retrieve(
             "id",
         )
-        assert_matches_type(SessionRetrieveResponse, session, path=["response"])
+        assert_matches_type(Session, session, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: MorpheusMarketplace) -> None:
@@ -71,7 +70,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionRetrieveResponse, session, path=["response"])
+        assert_matches_type(Session, session, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: MorpheusMarketplace) -> None:
@@ -82,7 +81,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionRetrieveResponse, session, path=["response"])
+            assert_matches_type(Session, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -98,7 +97,7 @@ class TestSessions:
         session = client.blockchain.sessions.close(
             "id",
         )
-        assert_matches_type(SessionCloseResponse, session, path=["response"])
+        assert session is None
 
     @parametrize
     def test_raw_response_close(self, client: MorpheusMarketplace) -> None:
@@ -109,7 +108,7 @@ class TestSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = response.parse()
-        assert_matches_type(SessionCloseResponse, session, path=["response"])
+        assert session is None
 
     @parametrize
     def test_streaming_response_close(self, client: MorpheusMarketplace) -> None:
@@ -120,7 +119,7 @@ class TestSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = response.parse()
-            assert_matches_type(SessionCloseResponse, session, path=["response"])
+            assert session is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -138,18 +137,18 @@ class TestAsyncSessions:
     @parametrize
     async def test_method_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         session = await async_client.blockchain.sessions.create(
-            approval="approval",
-            approval_sig="approvalSig",
-            stake="stake",
+            approval="approval_abc123",
+            approval_sig="signature_xyz789",
+            stake="500",
         )
         assert_matches_type(Session, session, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.sessions.with_raw_response.create(
-            approval="approval",
-            approval_sig="approvalSig",
-            stake="stake",
+            approval="approval_abc123",
+            approval_sig="signature_xyz789",
+            stake="500",
         )
 
         assert response.is_closed is True
@@ -160,9 +159,9 @@ class TestAsyncSessions:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.sessions.with_streaming_response.create(
-            approval="approval",
-            approval_sig="approvalSig",
-            stake="stake",
+            approval="approval_abc123",
+            approval_sig="signature_xyz789",
+            stake="500",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -177,7 +176,7 @@ class TestAsyncSessions:
         session = await async_client.blockchain.sessions.retrieve(
             "id",
         )
-        assert_matches_type(SessionRetrieveResponse, session, path=["response"])
+        assert_matches_type(Session, session, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -188,7 +187,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionRetrieveResponse, session, path=["response"])
+        assert_matches_type(Session, session, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -199,7 +198,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionRetrieveResponse, session, path=["response"])
+            assert_matches_type(Session, session, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -215,7 +214,7 @@ class TestAsyncSessions:
         session = await async_client.blockchain.sessions.close(
             "id",
         )
-        assert_matches_type(SessionCloseResponse, session, path=["response"])
+        assert session is None
 
     @parametrize
     async def test_raw_response_close(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -226,7 +225,7 @@ class TestAsyncSessions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         session = await response.parse()
-        assert_matches_type(SessionCloseResponse, session, path=["response"])
+        assert session is None
 
     @parametrize
     async def test_streaming_response_close(self, async_client: AsyncMorpheusMarketplace) -> None:
@@ -237,7 +236,7 @@ class TestAsyncSessions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             session = await response.parse()
-            assert_matches_type(SessionCloseResponse, session, path=["response"])
+            assert session is None
 
         assert cast(Any, response.is_closed) is True
 

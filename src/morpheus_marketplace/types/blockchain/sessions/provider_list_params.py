@@ -9,10 +9,10 @@ __all__ = ["ProviderListParams"]
 
 class ProviderListParams(TypedDict, total=False):
     provider: Required[str]
-    """Ethereum address of the provider."""
+    """Provider identifier"""
 
     limit: int
-    """Limit for pagination."""
+    """Maximum number of results to return"""
 
-    offset: str
-    """Offset for pagination."""
+    offset: int
+    """Number of results to skip"""

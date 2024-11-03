@@ -9,7 +9,7 @@ __all__ = ["ProviderCreateParams"]
 
 class ProviderCreateParams(TypedDict, total=False):
     endpoint: Required[str]
-    """Endpoint URL of the provider."""
+    """Endpoint URL of the provider"""
 
     stake: Required[str]
-    """Amount of tokens staked by the provider."""
+    """Amount to stake for the provider"""

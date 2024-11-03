@@ -28,7 +28,7 @@ from .provider import (
     ProviderResourceWithStreamingResponse,
     AsyncProviderResourceWithStreamingResponse,
 )
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ...._utils import (
     maybe_transform,
     async_maybe_transform,
@@ -44,13 +44,15 @@ from ...._response import (
 from ...._base_client import make_request_options
 from ....types.blockchain import session_create_params
 from ....types.shared.session import Session
-from ....types.blockchain.session_close_response import SessionCloseResponse
-from ....types.blockchain.session_retrieve_response import SessionRetrieveResponse
 
 __all__ = ["SessionsResource", "AsyncSessionsResource"]
 
 
 class SessionsResource(SyncAPIResource):
+    @cached_property
+    def budget(self) -> BudgetResource:
+        return BudgetResource(self._client)
+
     @cached_property
     def user(self) -> UserResource:
         return UserResource(self._client)
@@ -60,16 +62,12 @@ class SessionsResource(SyncAPIResource):
         return ProviderResource(self._client)
 
     @cached_property
-    def budget(self) -> BudgetResource:
-        return BudgetResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> SessionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return SessionsResourceWithRawResponse(self)
 
@@ -78,7 +76,7 @@ class SessionsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return SessionsResourceWithStreamingResponse(self)
 
@@ -96,14 +94,14 @@ class SessionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Opens a session with a provider, including staking requirements.
+        Create a new session
 
         Args:
-          approval: Approval data for session initiation.
+          approval: Approval identifier
 
-          approval_sig: Digital signature associated with the approval.
+          approval_sig: Signature for the approval
 
-          stake: Amount of tokens staked for the session.
+          stake: Stake amount for the session
 
           extra_headers: Send extra headers
 
@@ -139,9 +137,9 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionRetrieveResponse:
+    ) -> Session:
         """
-        Fetches details of a specific session by its ID.
+        Retrieve a session
 
         Args:
           extra_headers: Send extra headers
@@ -159,7 +157,7 @@ class SessionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionRetrieveResponse,
+            cast_to=Session,
         )
 
     def close(
@@ -172,9 +170,9 @@ class SessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCloseResponse:
+    ) -> None:
         """
-        Closes an active session using its unique session ID.
+        Close a session
 
         Args:
           extra_headers: Send extra headers
@@ -187,16 +185,21 @@ class SessionsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             f"/blockchain/sessions/{id}/close",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCloseResponse,
+            cast_to=NoneType,
         )
 
 
 class AsyncSessionsResource(AsyncAPIResource):
+    @cached_property
+    def budget(self) -> AsyncBudgetResource:
+        return AsyncBudgetResource(self._client)
+
     @cached_property
     def user(self) -> AsyncUserResource:
         return AsyncUserResource(self._client)
@@ -206,16 +209,12 @@ class AsyncSessionsResource(AsyncAPIResource):
         return AsyncProviderResource(self._client)
 
     @cached_property
-    def budget(self) -> AsyncBudgetResource:
-        return AsyncBudgetResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> AsyncSessionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncSessionsResourceWithRawResponse(self)
 
@@ -224,7 +223,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncSessionsResourceWithStreamingResponse(self)
 
@@ -242,14 +241,14 @@ class AsyncSessionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
-        Opens a session with a provider, including staking requirements.
+        Create a new session
 
         Args:
-          approval: Approval data for session initiation.
+          approval: Approval identifier
 
-          approval_sig: Digital signature associated with the approval.
+          approval_sig: Signature for the approval
 
-          stake: Amount of tokens staked for the session.
+          stake: Stake amount for the session
 
           extra_headers: Send extra headers
 
@@ -285,9 +284,9 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionRetrieveResponse:
+    ) -> Session:
         """
-        Fetches details of a specific session by its ID.
+        Retrieve a session
 
         Args:
           extra_headers: Send extra headers
@@ -305,7 +304,7 @@ class AsyncSessionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionRetrieveResponse,
+            cast_to=Session,
         )
 
     async def close(
@@ -318,9 +317,9 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCloseResponse:
+    ) -> None:
         """
-        Closes an active session using its unique session ID.
+        Close a session
 
         Args:
           extra_headers: Send extra headers
@@ -333,12 +332,13 @@ class AsyncSessionsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             f"/blockchain/sessions/{id}/close",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCloseResponse,
+            cast_to=NoneType,
         )
 
 
@@ -357,16 +357,16 @@ class SessionsResourceWithRawResponse:
         )
 
     @cached_property
+    def budget(self) -> BudgetResourceWithRawResponse:
+        return BudgetResourceWithRawResponse(self._sessions.budget)
+
+    @cached_property
     def user(self) -> UserResourceWithRawResponse:
         return UserResourceWithRawResponse(self._sessions.user)
 
     @cached_property
     def provider(self) -> ProviderResourceWithRawResponse:
         return ProviderResourceWithRawResponse(self._sessions.provider)
-
-    @cached_property
-    def budget(self) -> BudgetResourceWithRawResponse:
-        return BudgetResourceWithRawResponse(self._sessions.budget)
 
 
 class AsyncSessionsResourceWithRawResponse:
@@ -384,16 +384,16 @@ class AsyncSessionsResourceWithRawResponse:
         )
 
     @cached_property
+    def budget(self) -> AsyncBudgetResourceWithRawResponse:
+        return AsyncBudgetResourceWithRawResponse(self._sessions.budget)
+
+    @cached_property
     def user(self) -> AsyncUserResourceWithRawResponse:
         return AsyncUserResourceWithRawResponse(self._sessions.user)
 
     @cached_property
     def provider(self) -> AsyncProviderResourceWithRawResponse:
         return AsyncProviderResourceWithRawResponse(self._sessions.provider)
-
-    @cached_property
-    def budget(self) -> AsyncBudgetResourceWithRawResponse:
-        return AsyncBudgetResourceWithRawResponse(self._sessions.budget)
 
 
 class SessionsResourceWithStreamingResponse:
@@ -411,16 +411,16 @@ class SessionsResourceWithStreamingResponse:
         )
 
     @cached_property
+    def budget(self) -> BudgetResourceWithStreamingResponse:
+        return BudgetResourceWithStreamingResponse(self._sessions.budget)
+
+    @cached_property
     def user(self) -> UserResourceWithStreamingResponse:
         return UserResourceWithStreamingResponse(self._sessions.user)
 
     @cached_property
     def provider(self) -> ProviderResourceWithStreamingResponse:
         return ProviderResourceWithStreamingResponse(self._sessions.provider)
-
-    @cached_property
-    def budget(self) -> BudgetResourceWithStreamingResponse:
-        return BudgetResourceWithStreamingResponse(self._sessions.budget)
 
 
 class AsyncSessionsResourceWithStreamingResponse:
@@ -438,13 +438,13 @@ class AsyncSessionsResourceWithStreamingResponse:
         )
 
     @cached_property
+    def budget(self) -> AsyncBudgetResourceWithStreamingResponse:
+        return AsyncBudgetResourceWithStreamingResponse(self._sessions.budget)
+
+    @cached_property
     def user(self) -> AsyncUserResourceWithStreamingResponse:
         return AsyncUserResourceWithStreamingResponse(self._sessions.user)
 
     @cached_property
     def provider(self) -> AsyncProviderResourceWithStreamingResponse:
         return AsyncProviderResourceWithStreamingResponse(self._sessions.provider)
-
-    @cached_property
-    def budget(self) -> AsyncBudgetResourceWithStreamingResponse:
-        return AsyncBudgetResourceWithStreamingResponse(self._sessions.budget)

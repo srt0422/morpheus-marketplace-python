@@ -14,7 +14,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.blockchain.sessions.budget_list_response import BudgetListResponse
+from ....types.blockchain.sessions.budget import Budget
 
 __all__ = ["BudgetResource", "AsyncBudgetResource"]
 
@@ -26,7 +26,7 @@ class BudgetResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return BudgetResourceWithRawResponse(self)
 
@@ -35,7 +35,7 @@ class BudgetResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return BudgetResourceWithStreamingResponse(self)
 
@@ -48,14 +48,14 @@ class BudgetResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BudgetListResponse:
-        """Fetches the total budget for sessions on the current day."""
+    ) -> Budget:
+        """Get session budget"""
         return self._get(
             "/blockchain/sessions/budget",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BudgetListResponse,
+            cast_to=Budget,
         )
 
 
@@ -66,7 +66,7 @@ class AsyncBudgetResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#accessing-raw-response-data-eg-headers
         """
         return AsyncBudgetResourceWithRawResponse(self)
 
@@ -75,7 +75,7 @@ class AsyncBudgetResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/morpheus-marketplace-python#with_streaming_response
+        For more information, see https://www.github.com/srt0422/morpheus-marketplace-python#with_streaming_response
         """
         return AsyncBudgetResourceWithStreamingResponse(self)
 
@@ -88,14 +88,14 @@ class AsyncBudgetResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BudgetListResponse:
-        """Fetches the total budget for sessions on the current day."""
+    ) -> Budget:
+        """Get session budget"""
         return await self._get(
             "/blockchain/sessions/budget",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BudgetListResponse,
+            cast_to=Budget,
         )
 
 

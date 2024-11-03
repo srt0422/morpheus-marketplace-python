@@ -1,6 +1,6 @@
 [project]
 name = "morpheus_marketplace"
-version = "0.0.1-alpha.0"
+version = "0.1.0-alpha.1"
 description = "The official Python library for the morpheus-marketplace API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -36,8 +36,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/stainless-sdks/morpheus-marketplace-python"
-Repository = "https://github.com/stainless-sdks/morpheus-marketplace-python"
+Homepage = "https://github.com/srt0422/morpheus-marketplace-python"
+Repository = "https://github.com/srt0422/morpheus-marketplace-python"
 
 
 
@@ -123,7 +123,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/stainless-sdks/morpheus-marketplace-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/srt0422/morpheus-marketplace-python/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
