@@ -61,6 +61,8 @@ class BidsResource(SyncAPIResource):
         List bids for a provider
 
         Args:
+          id: Blockchain address in hexadecimal format without '0x' prefix
+
           limit: Maximum number of results to return
 
           offset: Number of results to skip
@@ -108,6 +110,8 @@ class BidsResource(SyncAPIResource):
         List active bids for a provider
 
         Args:
+          id: Blockchain address in hexadecimal format without '0x' prefix
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -164,6 +168,8 @@ class AsyncBidsResource(AsyncAPIResource):
         List bids for a provider
 
         Args:
+          id: Blockchain address in hexadecimal format without '0x' prefix
+
           limit: Maximum number of results to return
 
           offset: Number of results to skip
@@ -211,6 +217,8 @@ class AsyncBidsResource(AsyncAPIResource):
         List active bids for a provider
 
         Args:
+          id: Blockchain address in hexadecimal format without '0x' prefix
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
