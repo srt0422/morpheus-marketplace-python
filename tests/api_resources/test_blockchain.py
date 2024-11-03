@@ -19,7 +19,7 @@ class TestBlockchain:
     def test_method_approve(self, client: MorpheusMarketplace) -> None:
         blockchain = client.blockchain.approve(
             amount="500",
-            spender="spender",
+            spender="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert blockchain is None
 
@@ -27,7 +27,7 @@ class TestBlockchain:
     def test_raw_response_approve(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.with_raw_response.approve(
             amount="500",
-            spender="spender",
+            spender="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -39,7 +39,7 @@ class TestBlockchain:
     def test_streaming_response_approve(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.with_streaming_response.approve(
             amount="500",
-            spender="spender",
+            spender="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -57,7 +57,7 @@ class TestAsyncBlockchain:
     async def test_method_approve(self, async_client: AsyncMorpheusMarketplace) -> None:
         blockchain = await async_client.blockchain.approve(
             amount="500",
-            spender="spender",
+            spender="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert blockchain is None
 
@@ -65,7 +65,7 @@ class TestAsyncBlockchain:
     async def test_raw_response_approve(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.with_raw_response.approve(
             amount="500",
-            spender="spender",
+            spender="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -77,7 +77,7 @@ class TestAsyncBlockchain:
     async def test_streaming_response_approve(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.with_streaming_response.approve(
             amount="500",
-            spender="spender",
+            spender="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

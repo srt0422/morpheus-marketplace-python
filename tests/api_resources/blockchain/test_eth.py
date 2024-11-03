@@ -21,7 +21,7 @@ class TestEth:
     def test_method_send(self, client: MorpheusMarketplace) -> None:
         eth = client.blockchain.eth.send(
             amount="1.5",
-            to="0x1234567890abcdef1234567890abcdef12345678",
+            to="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert_matches_type(Balance, eth, path=["response"])
 
@@ -29,7 +29,7 @@ class TestEth:
     def test_raw_response_send(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.eth.with_raw_response.send(
             amount="1.5",
-            to="0x1234567890abcdef1234567890abcdef12345678",
+            to="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -41,7 +41,7 @@ class TestEth:
     def test_streaming_response_send(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.eth.with_streaming_response.send(
             amount="1.5",
-            to="0x1234567890abcdef1234567890abcdef12345678",
+            to="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -59,7 +59,7 @@ class TestAsyncEth:
     async def test_method_send(self, async_client: AsyncMorpheusMarketplace) -> None:
         eth = await async_client.blockchain.eth.send(
             amount="1.5",
-            to="0x1234567890abcdef1234567890abcdef12345678",
+            to="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert_matches_type(Balance, eth, path=["response"])
 
@@ -67,7 +67,7 @@ class TestAsyncEth:
     async def test_raw_response_send(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.eth.with_raw_response.send(
             amount="1.5",
-            to="0x1234567890abcdef1234567890abcdef12345678",
+            to="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -79,7 +79,7 @@ class TestAsyncEth:
     async def test_streaming_response_send(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.eth.with_streaming_response.send(
             amount="1.5",
-            to="0x1234567890abcdef1234567890abcdef12345678",
+            to="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

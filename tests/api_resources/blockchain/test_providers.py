@@ -80,14 +80,14 @@ class TestProviders:
     @parametrize
     def test_method_delete(self, client: MorpheusMarketplace) -> None:
         provider = client.blockchain.providers.delete(
-            "0x1234567890abcdef1234567890abcdef12345678",
+            "4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert provider is None
 
     @parametrize
     def test_raw_response_delete(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.providers.with_raw_response.delete(
-            "0x1234567890abcdef1234567890abcdef12345678",
+            "4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -98,7 +98,7 @@ class TestProviders:
     @parametrize
     def test_streaming_response_delete(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.providers.with_streaming_response.delete(
-            "0x1234567890abcdef1234567890abcdef12345678",
+            "4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -181,14 +181,14 @@ class TestAsyncProviders:
     @parametrize
     async def test_method_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
         provider = await async_client.blockchain.providers.delete(
-            "0x1234567890abcdef1234567890abcdef12345678",
+            "4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert provider is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.providers.with_raw_response.delete(
-            "0x1234567890abcdef1234567890abcdef12345678",
+            "4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -199,7 +199,7 @@ class TestAsyncProviders:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.providers.with_streaming_response.delete(
-            "0x1234567890abcdef1234567890abcdef12345678",
+            "4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

@@ -20,14 +20,14 @@ class TestProvider:
     @parametrize
     def test_method_list(self, client: MorpheusMarketplace) -> None:
         provider = client.blockchain.sessions.provider.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert_matches_type(SessionList, provider, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: MorpheusMarketplace) -> None:
         provider = client.blockchain.sessions.provider.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
             limit=10,
             offset=0,
         )
@@ -36,7 +36,7 @@ class TestProvider:
     @parametrize
     def test_raw_response_list(self, client: MorpheusMarketplace) -> None:
         response = client.blockchain.sessions.provider.with_raw_response.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -47,7 +47,7 @@ class TestProvider:
     @parametrize
     def test_streaming_response_list(self, client: MorpheusMarketplace) -> None:
         with client.blockchain.sessions.provider.with_streaming_response.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -64,14 +64,14 @@ class TestAsyncProvider:
     @parametrize
     async def test_method_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         provider = await async_client.blockchain.sessions.provider.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
         assert_matches_type(SessionList, provider, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMorpheusMarketplace) -> None:
         provider = await async_client.blockchain.sessions.provider.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
             limit=10,
             offset=0,
         )
@@ -80,7 +80,7 @@ class TestAsyncProvider:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         response = await async_client.blockchain.sessions.provider.with_raw_response.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         )
 
         assert response.is_closed is True
@@ -91,7 +91,7 @@ class TestAsyncProvider:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMorpheusMarketplace) -> None:
         async with async_client.blockchain.sessions.provider.with_streaming_response.list(
-            provider="provider_xyz789",
+            provider="4592d8f8d7b001e72cb26a73e4fa1806a51ac79d",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
